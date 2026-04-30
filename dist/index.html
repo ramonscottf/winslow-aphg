@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>AP Human Geo — Winslow's Study Hub</title>
+<meta name="description" content="AP Human Geography exam prep — flashcards, quizzes, study guide">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AP HumanGeo">
+<meta name="theme-color" content="#0f0f13">
+<link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f13;
+  --surface: #1a1a24;
+  --surface2: #242436;
+  --accent: #6c5ce7;
+  --accent-light: #a29bfe;
+  --green: #00b894;
+  --red: #ff6b6b;
+  --orange: #fdcb6e;
+  --text: #f0f0f5;
+  --text2: #a0a0b8;
+  --radius: 16px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Inter',sans-serif; background:var(--bg); color:var(--text);
+  min-height:100vh; min-height:100dvh; overflow-x:hidden; -webkit-tap-highlight-color:transparent;
+  padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom);
+  overscroll-behavior-y:contain;
+}
+.container { max-width:480px; margin:0 auto; padding:16px; }
+
+/* Header */
+.header {
+  text-align:center; padding:24px 0 8px;
+}
+.header h1 { font-size:1.8rem; font-weight:900; letter-spacing:-0.5px; }
+.header h1 span { background:linear-gradient(135deg,var(--accent-light),#74b9ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+.header .subtitle { color:var(--text2); font-size:0.85rem; margin-top:4px; }
+.streak-badge {
+  display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#ff6b6b,#fdcb6e);
+  color:#000; font-weight:800; font-size:0.75rem; padding:4px 12px; border-radius:20px; margin-top:8px;
+}
+.install-prompt {
+  background:linear-gradient(135deg,var(--accent),#4834d4); border-radius:14px; padding:14px 18px;
+  margin:12px 0; display:flex; align-items:center; justify-content:space-between; cursor:pointer;
+  transition:transform 0.15s;
+}
+.install-prompt:active { transform:scale(0.97); }
+.install-prompt span { font-weight:700; font-size:0.9rem; }
+.install-prompt .dismiss { background:none; border:none; color:rgba(255,255,255,0.6); font-size:1.2rem; cursor:pointer; }
+.countdown {
+  background:var(--surface); border-radius:12px; padding:12px; margin:16px 0;
+  text-align:center; border:1px solid var(--accent);
+}
+.countdown .days { font-size:2rem; font-weight:800; color:var(--accent-light); }
+.countdown .label { color:var(--text2); font-size:0.8rem; }
+
+/* Nav Tabs */
+.nav { display:flex; gap:6px; margin:16px 0; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.nav button {
+  flex-shrink:0; padding:10px 18px; border:none; border-radius:12px;
+  background:var(--surface); color:var(--text2); font-size:0.85rem; font-weight:600;
+  cursor:pointer; transition:all 0.2s;
+}
+.nav button.active { background:var(--accent); color:#fff; }
+
+/* Sections */
+.section { display:none; }
+.section.active { display:block; }
+
+/* Chapter List */
+.chapter-grid { display:flex; flex-direction:column; gap:10px; }
+.chapter-card {
+  background:var(--surface); border-radius:var(--radius); padding:16px;
+  cursor:pointer; transition:transform 0.15s, background 0.2s;
+  display:flex; align-items:center; gap:14px;
+}
+.chapter-card:active { transform:scale(0.97); }
+.chapter-card .ch-num {
+  width:40px; height:40px; border-radius:10px; display:flex;
+  align-items:center; justify-content:center; font-weight:800;
+  font-size:0.9rem; flex-shrink:0;
+}
+.chapter-card .ch-info h3 { font-size:0.95rem; font-weight:700; }
+.chapter-card .ch-info p { font-size:0.75rem; color:var(--text2); margin-top:2px; }
+.chapter-card .progress-dot {
+  margin-left:auto; width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-size:0.7rem;
+  background:var(--surface2); flex-shrink:0;
+}
+.chapter-card .progress-dot.done { background:var(--green); color:#fff; }
+
+/* Unit headers */
+.unit-header {
+  font-size:0.75rem; font-weight:700; color:var(--accent-light); text-transform:uppercase;
+  letter-spacing:1px; margin:20px 0 8px; padding-left:4px;
+}
+
+/* Chapter Content View */
+.chapter-view { display:none; }
+.chapter-view.active { display:block; }
+.back-btn {
+  background:none; border:none; color:var(--accent-light); font-size:0.9rem;
+  cursor:pointer; padding:8px 0; font-weight:600; display:flex; align-items:center; gap:6px;
+}
+.back-btn::before { content:'←'; }
+.chapter-title {
+  font-size:1.3rem; font-weight:800; margin:12px 0 8px;
+}
+.chapter-content {
+  line-height:1.7; font-size:0.9rem;
+}
+.chapter-content h3 {
+  font-size:1rem; font-weight:700; margin:20px 0 8px; color:var(--accent-light);
+  border-bottom:1px solid var(--surface2); padding-bottom:6px;
+}
+.chapter-content h4 {
+  font-size:0.9rem; font-weight:700; margin:14px 0 6px; color:var(--orange);
+}
+.chapter-content p { margin:8px 0; color:var(--text); }
+.chapter-content ul { margin:6px 0 6px 20px; }
+.chapter-content li { margin:4px 0; color:var(--text); }
+.chapter-content strong { color:var(--accent-light); }
+.chapter-content .key-term {
+  background:var(--surface2); padding:2px 8px; border-radius:6px;
+  font-weight:600; color:var(--green); display:inline;
+}
+.chapter-content table {
+  width:100%; border-collapse:collapse; margin:12px 0; font-size:0.8rem;
+}
+.chapter-content th {
+  background:var(--accent); color:#fff; padding:8px 10px; text-align:left;
+  font-weight:600; font-size:0.75rem;
+}
+.chapter-content td {
+  padding:8px 10px; border-bottom:1px solid var(--surface2);
+}
+.chapter-content tr:nth-child(even) { background:var(--surface); }
+.model-box {
+  background:var(--surface); border-left:3px solid var(--accent); border-radius:0 12px 12px 0;
+  padding:14px; margin:12px 0;
+}
+.model-box .model-name { font-weight:700; color:var(--accent-light); }
+.model-box .model-creator { font-size:0.8rem; color:var(--text2); }
+.model-box p { font-size:0.85rem; margin-top:6px; }
+
+/* Flashcards */
+.flashcard-controls {
+  display:flex; justify-content:space-between; align-items:center; margin:12px 0;
+}
+.flashcard-counter { font-size:0.85rem; color:var(--text2); }
+.flashcard-container {
+  perspective:1000px; margin:12px 0; min-height:280px;
+}
+.flashcard {
+  width:100%; min-height:280px; position:relative; cursor:pointer;
+  transform-style:preserve-3d; transition:transform 0.5s;
+}
+.flashcard.flipped { transform:rotateY(180deg); }
+.flashcard-face {
+  position:absolute; width:100%; min-height:280px; backface-visibility:hidden;
+  border-radius:var(--radius); padding:24px; display:flex;
+  flex-direction:column; justify-content:center; align-items:center; text-align:center;
+}
+.flashcard-front {
+  background:linear-gradient(135deg, var(--surface), var(--surface2));
+  border:2px solid var(--accent);
+}
+.flashcard-front .term { font-size:1.3rem; font-weight:800; }
+.flashcard-front .hint { color:var(--text2); font-size:0.8rem; margin-top:12px; }
+.flashcard-back {
+  background:linear-gradient(135deg, #1e1e3a, var(--surface));
+  border:2px solid var(--green); transform:rotateY(180deg);
+}
+.flashcard-back .definition { font-size:0.95rem; line-height:1.6; }
+.flashcard-back .example { color:var(--text2); font-size:0.8rem; margin-top:12px; font-style:italic; }
+.flashcard-actions {
+  display:flex; gap:12px; margin:16px 0; justify-content:center;
+}
+.flashcard-actions button {
+  padding:14px 28px; border:none; border-radius:12px; font-weight:700;
+  font-size:0.9rem; cursor:pointer; transition:transform 0.15s;
+}
+.flashcard-actions button:active { transform:scale(0.95); }
+.btn-know { background:var(--green); color:#fff; }
+.btn-dunno { background:var(--red); color:#fff; }
+.btn-next { background:var(--surface2); color:var(--text); }
+
+/* Quiz */
+.quiz-question {
+  background:var(--surface); border-radius:var(--radius); padding:20px; margin:12px 0;
+}
+.quiz-question .q-num { font-size:0.75rem; color:var(--accent-light); font-weight:700; }
+.quiz-question .q-text { font-size:1rem; font-weight:600; margin:8px 0 16px; line-height:1.5; }
+.quiz-option {
+  display:block; width:100%; text-align:left; padding:14px 16px;
+  background:var(--surface2); border:2px solid transparent; border-radius:12px;
+  color:var(--text); font-size:0.9rem; margin:8px 0; cursor:pointer;
+  transition:all 0.2s; font-family:inherit;
+}
+.quiz-option:hover { border-color:var(--accent); }
+.quiz-option.correct { background:#00b89433; border-color:var(--green); }
+.quiz-option.wrong { background:#ff6b6b33; border-color:var(--red); }
+.quiz-option.reveal { border-color:var(--green); }
+.quiz-explanation {
+  background:var(--surface2); border-radius:12px; padding:14px; margin-top:12px;
+  font-size:0.85rem; line-height:1.5; display:none;
+}
+.quiz-explanation.show { display:block; }
+.quiz-score {
+  text-align:center; padding:24px; background:var(--surface); border-radius:var(--radius);
+}
+.quiz-score .score-num { font-size:3rem; font-weight:800; color:var(--accent-light); }
+.quiz-score .score-label { color:var(--text2); font-size:0.9rem; }
+.quiz-nav { display:flex; gap:10px; margin:16px 0; justify-content:center; }
+.quiz-nav button {
+  padding:12px 24px; border:none; border-radius:12px; font-weight:700;
+  cursor:pointer; font-size:0.9rem; background:var(--accent); color:#fff;
+}
+
+/* Glossary */
+.search-box {
+  width:100%; padding:14px 16px; background:var(--surface); border:2px solid var(--surface2);
+  border-radius:12px; color:var(--text); font-size:1rem; font-family:inherit;
+  outline:none; transition:border-color 0.2s;
+}
+.search-box:focus { border-color:var(--accent); }
+.glossary-list { margin:16px 0; }
+.glossary-item {
+  background:var(--surface); border-radius:12px; padding:14px; margin:8px 0;
+}
+.glossary-item .g-term { font-weight:700; color:var(--green); font-size:0.9rem; }
+.glossary-item .g-chapter { font-size:0.7rem; color:var(--text2); }
+.glossary-item .g-def { font-size:0.85rem; margin-top:4px; line-height:1.5; }
+.glossary-count { font-size:0.8rem; color:var(--text2); margin:8px 0; }
+
+/* Progress */
+.progress-card {
+  background:var(--surface); border-radius:var(--radius); padding:16px; margin:10px 0;
+}
+.progress-card h3 { font-size:0.9rem; font-weight:700; margin-bottom:10px; }
+.progress-bar-bg {
+  height:8px; background:var(--surface2); border-radius:4px; overflow:hidden;
+}
+.progress-bar-fill {
+  height:100%; background:var(--accent); border-radius:4px; transition:width 0.5s;
+}
+.progress-stat {
+  display:flex; justify-content:space-between; margin-top:6px;
+  font-size:0.8rem; color:var(--text2);
+}
+.mode-tabs {
+  display:flex; gap:6px; margin:12px 0;
+}
+.mode-tabs button {
+  flex:1; padding:10px; border:2px solid var(--surface2); border-radius:12px;
+  background:var(--surface); color:var(--text2); font-size:0.8rem; font-weight:600;
+  cursor:pointer; transition:all 0.2s; font-family:inherit;
+}
+.mode-tabs button.active { border-color:var(--accent); color:var(--accent-light); background:var(--surface2); }
+
+/* Animations */
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.fade-in { animation:fadeIn 0.3s ease; }
+@keyframes slideInRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes slideInLeft { from{opacity:0;transform:translateX(-30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes popIn { 0%{transform:scale(0.8);opacity:0} 50%{transform:scale(1.05)} 100%{transform:scale(1);opacity:1} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+@keyframes confettiFall { 0%{transform:translateY(-100vh) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+.slide-right { animation:slideInRight 0.3s ease; }
+.slide-left { animation:slideInLeft 0.3s ease; }
+.pop-in { animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.shake { animation:shake 0.3s ease; }
+.confetti-piece {
+  position:fixed; width:10px; height:10px; border-radius:2px; top:-20px;
+  animation:confettiFall 3s linear forwards; pointer-events:none; z-index:9999;
+}
+/* Swipe hint */
+.swipe-hint {
+  text-align:center; color:var(--text2); font-size:0.75rem; margin:4px 0;
+  opacity:0.7;
+}
+/* Smooth tab indicator */
+.nav { position:relative; }
+.nav::after {
+  content:''; position:absolute; bottom:0; height:3px; background:var(--accent);
+  border-radius:2px; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+/* Score ring */
+.score-ring {
+  width:120px; height:120px; border-radius:50%; margin:0 auto 16px;
+  background:conic-gradient(var(--accent-light) var(--pct), var(--surface2) var(--pct));
+  display:flex; align-items:center; justify-content:center;
+}
+.score-ring-inner {
+  width:100px; height:100px; border-radius:50%; background:var(--surface);
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+}
+.score-ring-inner .big { font-size:1.8rem; font-weight:900; color:var(--accent-light); }
+.score-ring-inner .small { font-size:0.7rem; color:var(--text2); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--surface2); border-radius:2px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📚 AP <span>Human Geo</span></h1>
+    <div class="subtitle">Winslow's Study Hub • Rubenstein 11th Ed</div>
+  </div>
+  <div id="streakArea"></div>
+  <div class="countdown" id="countdown">
+    <div class="days" id="countdown-days">6</div>
+    <div class="label">days until exam · May 5, 2026</div>
+  </div>
+  <div id="installPrompt" style="display:none" class="install-prompt" onclick="installPWA()">
+    <span>📲 Add to Home Screen for offline access</span>
+    <button class="dismiss" onclick="event.stopPropagation();document.getElementById('installPrompt').style.display='none'">&times;</button>
+  </div>
+
+  <div class="nav" id="mainNav">
+    <button class="active" data-tab="study">📖 Study</button>
+    <button data-tab="flash">🃏 Cards</button>
+    <button data-tab="quiz">📝 Quiz</button>
+    <button data-tab="glossary">🔍 Terms</button>
+    <button data-tab="progress">📊 Progress</button>
+  </div>
+
+  <!-- STUDY SECTION -->
+  <div class="section active" id="sec-study">
+    <div id="chapterList"></div>
+    <div class="chapter-view" id="chapterView">
+      <button class="back-btn" onclick="closeChapter()">Back to chapters</button>
+      <h2 class="chapter-title" id="chViewTitle"></h2>
+      <div class="chapter-content" id="chViewContent"></div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS SECTION -->
+  <div class="section" id="sec-flash">
+    <div id="flashChapterSelect"></div>
+    <div id="flashcardArea" style="display:none">
+      <div class="flashcard-controls">
+        <button class="back-btn" onclick="closeFlashcards()">Back</button>
+        <div class="flashcard-counter" id="flashCounter">1 / 20</div>
+      </div>
+      <div class="flashcard-container" onclick="flipCard()">
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-face flashcard-front">
+            <div class="term" id="flashTerm"></div>
+            <div class="hint">tap to flip</div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <div class="definition" id="flashDef"></div>
+            <div class="example" id="flashExample"></div>
+          </div>
+        </div>
+      </div>
+      <div class="swipe-hint">← swipe left: again · swipe right: got it →</div>
+      <div class="flashcard-actions">
+        <button class="btn-dunno" onclick="flashAction('dunno')">✗ Again</button>
+        <button class="btn-know" onclick="flashAction('know')">✓ Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ SECTION -->
+  <div class="section" id="sec-quiz">
+    <div id="quizChapterSelect"></div>
+    <div id="quizArea" style="display:none"></div>
+  </div>
+
+  <!-- GLOSSARY SECTION -->
+  <div class="section" id="sec-glossary">
+    <input type="text" class="search-box" placeholder="Search 300+ key terms..." oninput="filterGlossary(this.value)" id="glossarySearch">
+    <div class="glossary-count" id="glossaryCount"></div>
+    <div class="glossary-list" id="glossaryList"></div>
+  </div>
+
+  <!-- PROGRESS SECTION -->
+  <div class="section" id="sec-progress">
+    <div id="progressArea"></div>
+  </div>
+</div>
+
+<script>
+// ========== DATA ==========
+const CHAPTERS = [
+{id:1,unit:1,unitName:"Thinking Geographically",title:"Basic Concepts",color:"#6c5ce7"},
+{id:2,unit:2,unitName:"Population & Migration",title:"Population",color:"#00b894"},
+{id:3,unit:2,unitName:"Population & Migration",title:"Migration",color:"#00b894"},
+{id:4,unit:3,unitName:"Cultural Patterns",title:"Folk & Popular Culture",color:"#fdcb6e"},
+{id:5,unit:3,unitName:"Cultural Patterns",title:"Language",color:"#fdcb6e"},
+{id:6,unit:3,unitName:"Cultural Patterns",title:"Religion",color:"#fdcb6e"},
+{id:7,unit:3,unitName:"Cultural Patterns",title:"Ethnicity",color:"#fdcb6e"},
+{id:8,unit:4,unitName:"Political Geography",title:"Political Geography",color:"#e17055"},
+{id:9,unit:5,unitName:"Agriculture & Development",title:"Development",color:"#74b9ff"},
+{id:10,unit:5,unitName:"Agriculture & Development",title:"Agriculture",color:"#74b9ff"},
+{id:11,unit:6,unitName:"Industrialization",title:"Industry",color:"#ff7675"},
+{id:12,unit:7,unitName:"Cities & Urban Land Use",title:"Services",color:"#a29bfe"},
+{id:13,unit:7,unitName:"Cities & Urban Land Use",title:"Urban Patterns",color:"#a29bfe"},
+{id:14,unit:7,unitName:"Cities & Urban Land Use",title:"Resource Issues",color:"#a29bfe"}
+];
+
+const STUDY_CONTENT = {
+1: `<h3>What Is Geography?</h3>
+<p><strong>Geography</strong> — the study of where things are found and why they're there. <strong>Human geography</strong> studies how people make places, organize space, and interact with environments.</p>
+
+<h3>Key Concepts of Place</h3>
+<ul>
+<li><strong>Toponym</strong> — the name given to a place</li>
+<li><strong>Site</strong> — physical characteristics of a place (climate, terrain, water)</li>
+<li><strong>Situation</strong> — location relative to other places; helps find unfamiliar places by comparing to known ones</li>
+</ul>
+
+<h3>Types of Regions</h3>
+<ul>
+<li><strong>Formal (uniform) region</strong> — everyone shares a common trait (French-speaking Canada, the Corn Belt)</li>
+<li><strong>Functional (nodal) region</strong> — organized around a focal point (TV broadcast area, pizza delivery zone)</li>
+<li><strong>Vernacular (perceptual) region</strong> — exists in people's minds, fuzzy boundaries ("the South," "Midwest")</li>
+</ul>
+
+<h3>Maps & Spatial Tools</h3>
+<ul>
+<li><strong>GIS</strong> — computer system for capturing, storing, and analyzing spatial data</li>
+<li><strong>GPS</strong> — satellite-based system that determines precise position on Earth</li>
+<li><strong>Remote sensing</strong> — acquiring data about Earth from satellites or aircraft</li>
+</ul>
+<h4>Map Projections</h4>
+<p>All projections distort something. Key trade-offs:</p>
+<ul>
+<li><strong>Mercator</strong> — preserves shapes, distorts size (Greenland looks as big as Africa)</li>
+<li><strong>Robinson</strong> — compromise projection, somewhat accurate shape and size</li>
+<li><strong>Equal-area</strong> — preserves area, distorts shapes</li>
+</ul>
+<h4>Map Types</h4>
+<ul>
+<li><strong>Choropleth</strong> — uses shading by area (population density by state)</li>
+<li><strong>Dot distribution</strong> — dots show occurrences</li>
+<li><strong>Isoline</strong> — lines connect equal values (contour lines, temperature)</li>
+<li><strong>Cartogram</strong> — distorts area to show data (bigger = more population)</li>
+<li><strong>Proportional symbol</strong> — symbol size represents data values</li>
+</ul>
+
+<h3>Distribution Properties</h3>
+<ul>
+<li><strong>Density</strong> — frequency per unit area</li>
+<li><strong>Concentration</strong> — clustered vs. dispersed</li>
+<li><strong>Pattern</strong> — geometric arrangement (linear, random, regular)</li>
+</ul>
+
+<h3>Diffusion Types ⭐</h3>
+<div class="model-box">
+<div class="model-name">Diffusion</div>
+<p><strong>Relocation</strong> — spread through physical movement of people (migrants bringing food traditions)<br>
+<strong>Expansion</strong> — spreads outward from a source:<br>
+&nbsp;&nbsp;• <strong>Hierarchical</strong> — important places/people first (fashion trends)<br>
+&nbsp;&nbsp;• <strong>Contagious</strong> — spreads to everything nearby (disease, wildfire)<br>
+&nbsp;&nbsp;• <strong>Stimulus</strong> — underlying idea spreads but is adapted (McDonald's → local fast food chains)</p>
+</div>`,
+
+2: `<h3>Where People Live</h3>
+<p><strong>Ecumene</strong> — the portion of Earth permanently inhabited by people. Most of the world's population is clustered in four regions: <strong>East Asia</strong>, <strong>South Asia</strong>, <strong>Europe</strong>, and <strong>Southeast Asia</strong>.</p>
+
+<h3>Density Measures ⭐</h3>
+<ul>
+<li><strong>Arithmetic density</strong> — total population ÷ total land area</li>
+<li><strong>Physiological density</strong> — population ÷ arable land → shows pressure on farmland</li>
+<li><strong>Agricultural density</strong> — # of farmers ÷ arable land → shows farming efficiency</li>
+</ul>
+
+<h3>Population Growth Measures</h3>
+<ul>
+<li><strong>NIR (Natural Increase Rate)</strong> — % annual growth = CBR − CDR</li>
+<li><strong>CBR</strong> — crude birth rate (births per 1,000)</li>
+<li><strong>CDR</strong> — crude death rate (deaths per 1,000)</li>
+<li><strong>TFR</strong> — total fertility rate (avg children per woman; replacement = 2.1)</li>
+<li><strong>IMR</strong> — infant mortality rate (deaths under age 1 per 1,000 births)</li>
+<li><strong>Doubling time</strong> ≈ 70 ÷ NIR</li>
+</ul>
+
+<h3>Demographic Transition Model ⭐⭐</h3>
+<div class="model-box">
+<div class="model-name">DTM — THE Most Important AP Model</div>
+<table>
+<tr><th>Stage</th><th>CBR</th><th>CDR</th><th>NIR</th><th>Growth</th></tr>
+<tr><td>1</td><td>High</td><td>High</td><td>Low</td><td>Slow</td></tr>
+<tr><td>2</td><td>High</td><td>Dropping</td><td>High</td><td>Rapid</td></tr>
+<tr><td>3</td><td>Falling</td><td>Low</td><td>Moderate</td><td>Slowing</td></tr>
+<tr><td>4</td><td>Low</td><td>Low</td><td>Near zero</td><td>Stable</td></tr>
+<tr><td>5</td><td>Very low</td><td>Low</td><td>Negative</td><td>Declining</td></tr>
+</table>
+<p>CDR drops first (medicine, sanitation). CBR drops later (urbanization, education, contraception).</p>
+</div>
+
+<h3>Epidemiologic Transition</h3>
+<ol>
+<li><strong>Pestilence & famine</strong> — infectious disease, poor nutrition</li>
+<li><strong>Receding pandemics</strong> — improved sanitation</li>
+<li><strong>Degenerative diseases</strong> — heart disease, cancer (aging population)</li>
+<li><strong>Delayed degenerative</strong> — medical advances extend life</li>
+<li><strong>Possible Stage 5</strong> — reemergence of infectious disease</li>
+</ol>
+
+<h3>Malthus</h3>
+<p><strong>Malthusian theory</strong> — population grows exponentially, food grows linearly → inevitable catastrophe. Critics say technology (Green Revolution) has kept pace. The DTM shows population growth naturally slows.</p>
+
+<h3>Population Policies</h3>
+<ul>
+<li><strong>Pro-natalist</strong> — encourage births (France, Sweden: parental leave, child subsidies)</li>
+<li><strong>Anti-natalist</strong> — discourage births (China's one-child policy, now relaxed)</li>
+</ul>`,
+
+3: `<h3>Migration Basics</h3>
+<ul>
+<li><strong>Immigration</strong> — moving INTO a country</li>
+<li><strong>Emigration</strong> — moving OUT of a country</li>
+<li><strong>Net migration</strong> — immigration minus emigration</li>
+<li><strong>Circulation</strong> — short-term, repetitive movement (commuting)</li>
+</ul>
+
+<h3>Push & Pull Factors ⭐</h3>
+<ul>
+<li><strong>Push factors</strong> — force people to leave: war, poverty, disaster, persecution</li>
+<li><strong>Pull factors</strong> — attract people to a destination: jobs, freedom, family, climate</li>
+<li><strong>Intervening obstacles</strong> — barriers (ocean, borders, cost, language)</li>
+<li><strong>Intervening opportunity</strong> — acceptable closer alternative</li>
+</ul>
+
+<h3>Ravenstein's Laws</h3>
+<ul>
+<li>Most migrate short distances</li>
+<li>Long-distance migrants go to big cities</li>
+<li>Each migration stream produces a counter-stream</li>
+<li>Rural residents migrate more than urban</li>
+</ul>
+
+<h3>Types of Migration</h3>
+<ul>
+<li><strong>Voluntary</strong> vs. <strong>Forced</strong> (refugees, slavery)</li>
+<li><strong>Internal:</strong> Interregional (between regions) vs. Intraregional (within a region, e.g., city → suburb)</li>
+<li><strong>International:</strong> Economic migrants, refugees, asylum seekers</li>
+<li><strong>IDP</strong> — Internally Displaced Person (forced to flee but stays in own country)</li>
+</ul>
+
+<h3>Key Concepts</h3>
+<ul>
+<li><strong>Chain migration</strong> — following family/friends who migrated before you</li>
+<li><strong>Step migration</strong> — village → town → city (series of shorter moves)</li>
+<li><strong>Brain drain</strong> — educated people leave developing countries</li>
+<li><strong>Remittances</strong> — money migrants send home (huge economic impact for LDCs)</li>
+<li><strong>Guest workers</strong> — temporary foreign workers (Turks in Germany)</li>
+</ul>
+
+<h3>US Immigration Waves</h3>
+<ul>
+<li><strong>Pre-1840s:</strong> British, West African (forced)</li>
+<li><strong>1840s-1880s:</strong> Irish, German ("Old Immigration")</li>
+<li><strong>1880s-1920s:</strong> Southern/Eastern European ("New Immigration")</li>
+<li><strong>1920s-1965:</strong> Quota laws restricted non-Western European</li>
+<li><strong>1965-present:</strong> Latin American, Asian</li>
+</ul>`,
+
+4: `<h3>Folk vs. Popular Culture ⭐</h3>
+<table>
+<tr><th>Feature</th><th>Folk Culture</th><th>Popular Culture</th></tr>
+<tr><td>Origin</td><td>Anonymous, tradition</td><td>Known source, innovation</td></tr>
+<tr><td>Diffusion</td><td>Slow, relocation</td><td>Rapid, hierarchical</td></tr>
+<tr><td>Distribution</td><td>Clustered, isolated</td><td>Widespread, global</td></tr>
+<tr><td>Landscape</td><td>Unique, local materials</td><td>Uniform, commercial</td></tr>
+</table>
+
+<h3>Folk Culture</h3>
+<p>Traditional practices of small, homogeneous groups. Spreads through <strong>relocation diffusion</strong>. Examples: Amish lifestyle, Himalayan yak butter tea, regional folk music.</p>
+<p><strong>Folk housing</strong> — built with local materials reflecting climate. US types: New England saltbox, "I-house," shotgun house.</p>
+
+<h3>Popular Culture</h3>
+<p>Practices of large, heterogeneous societies. Spreads through <strong>hierarchical diffusion</strong> (media, internet). Creates <strong>uniform landscapes</strong> (same chain stores everywhere).</p>
+<ul>
+<li><strong>Placelessness</strong> — loss of uniqueness as popular culture homogenizes</li>
+<li><strong>Cultural imperialism</strong> — dominance of one culture over another (Americanization)</li>
+<li><strong>Taboo</strong> — cultural restriction on behavior (food taboos vary globally)</li>
+</ul>
+
+<h3>Cultural Landscape</h3>
+<p>The visible imprint of human activity on the natural landscape — what a place looks like reflects who lives there.</p>`,
+
+5: `<h3>Language Basics</h3>
+<ul>
+<li><strong>Language family</strong> — collection of related languages from common ancestor</li>
+<li><strong>Language branch</strong> — subdivision of family</li>
+<li><strong>Language group</strong> — further subdivision of branch</li>
+<li><strong>Dialect</strong> — regional variation of a language</li>
+</ul>
+
+<h3>Major Language Families</h3>
+<ul>
+<li><strong>Indo-European</strong> (~45% of speakers) — English, Spanish, Hindi, Russian, French</li>
+<li><strong>Sino-Tibetan</strong> (~20%) — Mandarin Chinese</li>
+<li><strong>Niger-Congo</strong> — Sub-Saharan Africa</li>
+<li><strong>Afro-Asiatic</strong> — Arabic, Hebrew</li>
+<li><strong>Austronesian</strong> — Southeast Asia, Pacific Islands</li>
+<li><strong>Dravidian</strong> — Southern India (Tamil, Telugu)</li>
+</ul>
+
+<h3>Language Diffusion</h3>
+<ul>
+<li><strong>Proto-Indo-European</strong> — hypothetical common ancestor</li>
+<li><strong>Kurgan hypothesis</strong> — spread from Central Asian steppes by nomadic herders</li>
+<li><strong>Anatolian hypothesis</strong> — spread from Turkey with agriculture</li>
+</ul>
+
+<h3>Key Terms</h3>
+<ul>
+<li><strong>Lingua franca</strong> — common language for different groups (English globally, Swahili in East Africa)</li>
+<li><strong>Pidgin</strong> — simplified language for trade</li>
+<li><strong>Creole</strong> — pidgin that becomes someone's native language</li>
+<li><strong>Isolated language</strong> — unrelated to any other (Basque)</li>
+<li><strong>Extinct language</strong> — no native speakers remain</li>
+</ul>`,
+
+6: `<h3>Universalizing vs. Ethnic Religions ⭐</h3>
+<table>
+<tr><th>Feature</th><th>Universalizing</th><th>Ethnic</th></tr>
+<tr><td>Mission</td><td>Actively seek converts</td><td>Don't proselytize</td></tr>
+<tr><td>Spread</td><td>Diffuses to new areas</td><td>Stays with ethnic group</td></tr>
+<tr><td>Holy places</td><td>Related to founder's life</td><td>Related to nature</td></tr>
+<tr><td>Examples</td><td>Christianity, Islam, Buddhism</td><td>Hinduism, Judaism, Shinto</td></tr>
+</table>
+
+<h3>Major Universalizing Religions</h3>
+<h4>Christianity (~2 billion)</h4>
+<p>Branches: <strong>Roman Catholic, Protestant, Eastern Orthodox</strong>. Hearth: Palestine. Diffused through colonialism and missionaries.</p>
+<h4>Islam (~1.5 billion)</h4>
+<p>Branches: <strong>Sunni (~85%)</strong> and <strong>Shia (~15%)</strong>. Five Pillars: faith, prayer, charity, fasting, hajj. Hearth: Arabian Peninsula.</p>
+<h4>Buddhism (~400 million)</h4>
+<p>Branches: <strong>Mahayana</strong> (East Asia), <strong>Theravada</strong> (SE Asia), <strong>Vajrayana</strong> (Tibet). Four Noble Truths, Eightfold Path. Hearth: NE India.</p>
+
+<h3>Major Ethnic Religions</h3>
+<p><strong>Hinduism</strong> (~1 billion) — no founder, oldest major religion. Karma, dharma, caste system, reincarnation. Concentrated in India.</p>
+<p><strong>Judaism</strong> (~15 million) — first monotheistic religion. Torah, synagogue. <strong>Diaspora</strong> — scattering of Jews from Palestine.</p>
+
+<h3>Religious Conflict</h3>
+<ul>
+<li><strong>Interfaith</strong> — between religions (Crusades, Israel-Palestine)</li>
+<li><strong>Intrafaith</strong> — within a religion (Sunni vs. Shia)</li>
+<li><strong>Secularism</strong> — declining influence of religion in public life</li>
+<li><strong>Fundamentalism</strong> — strict adherence to religious principles</li>
+</ul>`,
+
+7: `<h3>Key Definitions</h3>
+<ul>
+<li><strong>Ethnicity</strong> — identity with a group sharing cultural traditions and homeland</li>
+<li><strong>Race</strong> — identity based on perceived biological differences (socially constructed)</li>
+<li><strong>Racism</strong> — belief in racial superiority</li>
+<li><strong>Nationality</strong> — identity with a country</li>
+</ul>
+
+<h3>US Ethnic Distribution</h3>
+<ul>
+<li><strong>African Americans</strong> — Southeast, urban North (Great Migration 1910s-1970s)</li>
+<li><strong>Hispanic/Latino</strong> — Southwest (Mexican), Florida (Cuban), NYC (Puerto Rican)</li>
+<li><strong>Asian Americans</strong> — West Coast, Hawaii</li>
+</ul>
+
+<h3>Ethnic Conflict & Segregation</h3>
+<ul>
+<li><strong>Apartheid</strong> — South Africa's legal racial segregation (ended 1990s)</li>
+<li><strong>Ethnic cleansing</strong> — forced removal of an ethnic group</li>
+<li><strong>Genocide</strong> — deliberate killing of an ethnic group (Holocaust, Rwanda)</li>
+<li><strong>Balkanization</strong> — fragmentation along ethnic lines (Yugoslavia)</li>
+</ul>
+
+<h3>Forces on States</h3>
+<ul>
+<li><strong>Centripetal forces</strong> — UNITE a state (shared language, religion, identity)</li>
+<li><strong>Centrifugal forces</strong> — DIVIDE a state (ethnic conflict, inequality)</li>
+</ul>`,
+
+8: `<h3>States & Nations ⭐</h3>
+<ul>
+<li><strong>State</strong> — sovereign territory with defined borders and government</li>
+<li><strong>Nation</strong> — group sharing cultural identity</li>
+<li><strong>Nation-state</strong> — territory = nation's homeland (Japan, Iceland)</li>
+<li><strong>Multinational state</strong> — contains multiple nations (UK, Russia)</li>
+<li><strong>Multistate nation</strong> — nation across multiple states (Kurds)</li>
+<li><strong>Stateless nation</strong> — nation without a state (Kurds, Palestinians)</li>
+</ul>
+
+<h3>Boundary Types</h3>
+<ul>
+<li><strong>Physical/natural</strong> — rivers, mountains (Rio Grande)</li>
+<li><strong>Cultural</strong> — language, religion, ethnicity</li>
+<li><strong>Geometric</strong> — straight lines (US-Canada 49th parallel)</li>
+<li><strong>Antecedent</strong> — drawn before significant settlement</li>
+<li><strong>Subsequent</strong> — drawn after cultural landscape develops</li>
+<li><strong>Superimposed</strong> — forced by outsiders (colonial Africa)</li>
+<li><strong>Relic</strong> — no longer functions but visible (Berlin Wall)</li>
+</ul>
+
+<h3>Shapes of States</h3>
+<table>
+<tr><th>Shape</th><th>Description</th><th>Example</th></tr>
+<tr><td>Compact</td><td>Nearly circular</td><td>Poland</td></tr>
+<tr><td>Elongated</td><td>Long and narrow</td><td>Chile</td></tr>
+<tr><td>Prorupted</td><td>Compact + extension</td><td>Thailand</td></tr>
+<tr><td>Fragmented</td><td>Multiple pieces</td><td>Indonesia</td></tr>
+<tr><td>Perforated</td><td>Contains another state</td><td>South Africa</td></tr>
+</table>
+
+<h3>Government & Geopolitics</h3>
+<ul>
+<li><strong>Unitary state</strong> — power centralized (France, China)</li>
+<li><strong>Federal state</strong> — power shared (US, Germany)</li>
+<li><strong>Devolution</strong> — power transfers from central to regional (Scotland, Catalonia)</li>
+<li><strong>Supranationalism</strong> — states cooperate, giving up sovereignty (EU)</li>
+<li><strong>Gerrymandering</strong> — drawing districts for political advantage</li>
+<li><strong>Colonialism</strong> → <strong>Neocolonialism</strong> (economic control without direct political control)</li>
+</ul>`,
+
+9: `<h3>Measuring Development</h3>
+<ul>
+<li><strong>HDI</strong> — Human Development Index (life expectancy + education + income)</li>
+<li><strong>GDP</strong> — total value of goods/services produced</li>
+<li><strong>GDP per capita</strong> — GDP ÷ population</li>
+<li><strong>GNI</strong> — GDP + income from abroad</li>
+<li><strong>PPP</strong> — adjusts for cost-of-living differences</li>
+<li><strong>Gender Inequality Index</strong> — measures gender disadvantage</li>
+</ul>
+
+<h3>Rostow's Modernization Model ⭐</h3>
+<div class="model-box">
+<div class="model-name">Rostow's 5 Stages of Development</div>
+<div class="model-creator">W.W. Rostow, 1960</div>
+<p>1. <strong>Traditional society</strong> — subsistence farming<br>
+2. <strong>Preconditions for takeoff</strong> — infrastructure, commercial farming<br>
+3. <strong>Takeoff</strong> — rapid industrialization<br>
+4. <strong>Drive to maturity</strong> — diversified economy<br>
+5. <strong>Mass consumption</strong> — high incomes, consumer economy</p>
+<p><em>Criticism: Western-centric, ignores colonial exploitation</em></p>
+</div>
+
+<h3>Wallerstein's World Systems Theory ⭐</h3>
+<div class="model-box">
+<div class="model-name">World Systems Theory</div>
+<div class="model-creator">Immanuel Wallerstein</div>
+<p><strong>Core</strong> — wealthy, industrialized countries that exploit others (US, Europe, Japan)<br>
+<strong>Semi-periphery</strong> — in between (Brazil, India, China)<br>
+<strong>Periphery</strong> — poor countries providing raw materials and cheap labor</p>
+</div>
+
+<h3>Development Strategies</h3>
+<ul>
+<li><strong>Self-sufficiency</strong> — develop all sectors (India pre-1990)</li>
+<li><strong>International trade</strong> — focus on exports (Asian Tigers)</li>
+<li><strong>Structural adjustment</strong> — IMF/World Bank loans with conditions</li>
+<li><strong>Microfinance</strong> — small loans to entrepreneurs (Grameen Bank)</li>
+</ul>`,
+
+10: `<h3>Agricultural Revolutions</h3>
+<ul>
+<li><strong>First (Neolithic)</strong> — ~10,000 years ago, shift to farming. Hearths: Fertile Crescent, East Asia, Mesoamerica</li>
+<li><strong>Second</strong> — 1700s-1800s, mechanization alongside Industrial Revolution</li>
+<li><strong>Third (Green Revolution)</strong> — 1960s+, high-yield seeds, fertilizers, irrigation. Dramatically increased food production</li>
+</ul>
+
+<h3>Subsistence vs. Commercial Agriculture</h3>
+<table>
+<tr><th>Feature</th><th>Subsistence</th><th>Commercial</th></tr>
+<tr><td>Purpose</td><td>Feed family</td><td>Sell for profit</td></tr>
+<tr><td>Labor</td><td>Intensive</td><td>Mechanized</td></tr>
+<tr><td>Farm size</td><td>Small</td><td>Large</td></tr>
+<tr><td>Location</td><td>Developing countries</td><td>Developed countries</td></tr>
+</table>
+
+<h3>Types of Agriculture</h3>
+<h4>Subsistence</h4>
+<ul>
+<li><strong>Shifting cultivation (slash-and-burn)</strong> — clear, farm, move. Tropics.</li>
+<li><strong>Pastoral nomadism</strong> — herding across arid lands. <strong>Transhumance</strong> = seasonal movement.</li>
+<li><strong>Intensive subsistence</strong> — wet rice paddies in monsoon Asia</li>
+<li><strong>Plantation</strong> — large-scale single crop in tropics (coffee, sugar)</li>
+</ul>
+<h4>Commercial</h4>
+<ul>
+<li><strong>Mixed crop & livestock</strong> — US Midwest, Europe</li>
+<li><strong>Dairy farming</strong> — near urban markets (milkshed)</li>
+<li><strong>Grain farming</strong> — Great Plains, Ukraine</li>
+<li><strong>Mediterranean</strong> — olives, grapes, fruits</li>
+</ul>
+
+<h3>Von Thünen Model ⭐</h3>
+<div class="model-box">
+<div class="model-name">Von Thünen's Agricultural Model (1826)</div>
+<p>Land use in concentric rings around a market center:</p>
+<p>1. <strong>Market gardening/dairy</strong> (closest — perishable)<br>
+2. <strong>Forest</strong> (fuel/building — heavy)<br>
+3. <strong>Field crops</strong> (grain)<br>
+4. <strong>Ranching</strong> (farthest — needs most land)</p>
+<p>Assumptions: flat terrain, single market, uniform transport. Modified by rivers, roads, soil quality.</p>
+</div>`,
+
+11: `<h3>Industrial Revolution</h3>
+<p>Began in <strong>Great Britain</strong> late 1700s (textiles, iron, coal). Spread to Europe, North America, then East Asia.</p>
+
+<h3>Situation Factors (transportation costs)</h3>
+<ul>
+<li><strong>Bulk-reducing</strong> — output weighs less than inputs → locate near raw materials (copper smelting, steel)</li>
+<li><strong>Bulk-gaining</strong> — output weighs more or costlier to ship → locate near market (soft drinks, baking)</li>
+<li><strong>Break-of-bulk point</strong> — where goods transfer between transport modes (ports, rail yards)</li>
+</ul>
+
+<h3>Site Factors</h3>
+<ul>
+<li><strong>Labor</strong> — #1 site factor globally. Cheap labor attracts manufacturing.</li>
+<li><strong>Land, capital, energy</strong> — affect location decisions</li>
+</ul>
+
+<h3>Weber's Least Cost Theory ⭐</h3>
+<div class="model-box">
+<div class="model-name">Weber's Least Cost Theory (1909)</div>
+<div class="model-creator">Alfred Weber</div>
+<p>Industry locates to minimize <strong>transportation costs</strong> (distance to inputs + market). Also considers <strong>labor costs</strong> and <strong>agglomeration</strong>.</p>
+<p><strong>Agglomeration</strong> — clustering for shared resources. <strong>Deglomeration</strong> — spreading out when too concentrated.</p>
+</div>
+
+<h3>Changing Industry</h3>
+<ul>
+<li><strong>Fordism</strong> — mass production, assembly lines (early 1900s)</li>
+<li><strong>Post-Fordism</strong> — flexible production, small batches, just-in-time delivery</li>
+<li><strong>NIDL</strong> — New International Division of Labor: manufacturing shifts to developing countries</li>
+<li><strong>Outsourcing</strong> — contracting to outside companies</li>
+<li><strong>Offshoring</strong> — moving production abroad</li>
+<li><strong>Maquiladora</strong> — US-owned factory in Mexico near the border</li>
+<li><strong>Right-to-work laws</strong> — can't require union membership → attracts industry to Sun Belt</li>
+</ul>`,
+
+12: `<h3>Three Types of Services</h3>
+<ul>
+<li><strong>Consumer services</strong> — retail, health, education, leisure</li>
+<li><strong>Business (producer) services</strong> — financial, professional, transport/info</li>
+<li><strong>Public services</strong> — government (military, postal, infrastructure)</li>
+</ul>
+
+<h3>Central Place Theory ⭐⭐</h3>
+<div class="model-box">
+<div class="model-name">Central Place Theory</div>
+<div class="model-creator">Walter Christaller, 1933</div>
+<p><strong>Central place</strong> — market center for goods/services<br>
+<strong>Market area (hinterland)</strong> — surrounding area served; forms <strong>hexagons</strong><br>
+<strong>Range</strong> — maximum distance people travel for a service<br>
+<strong>Threshold</strong> — minimum people needed to support a service</p>
+<p>Small towns have few services (gas station). Big cities add specialized ones (opera, pro sports). Larger market areas contain smaller ones = <strong>nesting hierarchy</strong>.</p>
+</div>
+
+<h3>Settlement Patterns</h3>
+<ul>
+<li><strong>Clustered</strong> — homes grouped together (village)</li>
+<li><strong>Dispersed</strong> — homes spread far apart (US Midwest)</li>
+<li><strong>Linear</strong> — along a road/river/railroad</li>
+</ul>
+
+<h3>City Size Rules</h3>
+<ul>
+<li><strong>Rank-size rule</strong> — 2nd city = ½ the largest; 3rd = ⅓, etc. (US follows this)</li>
+<li><strong>Primate city rule</strong> — largest city is MORE than 2× the 2nd largest (Paris, London, Mexico City)</li>
+<li><strong>Gravity model</strong> — interaction between places is proportional to population and inversely proportional to distance</li>
+</ul>
+
+<h3>Economic Base</h3>
+<ul>
+<li><strong>Basic industries</strong> — export goods, bring money in</li>
+<li><strong>Non-basic industries</strong> — serve local community only</li>
+</ul>`,
+
+13: `<h3>Three Classic Urban Models ⭐⭐⭐</h3>
+<div class="model-box">
+<div class="model-name">Concentric Zone Model</div>
+<div class="model-creator">Burgess, 1925 (based on Chicago)</div>
+<p>City grows outward in <strong>rings</strong>:<br>
+1. CBD<br>
+2. Zone of transition (industry, immigrants)<br>
+3. Working-class homes<br>
+4. Middle-class homes<br>
+5. Commuter zone (suburbs)</p>
+</div>
+<div class="model-box">
+<div class="model-name">Sector Model</div>
+<div class="model-creator">Hoyt, 1939</div>
+<p>City grows in <strong>wedge-shaped sectors</strong> along transportation routes. Rich and poor areas extend outward in pie slices.</p>
+</div>
+<div class="model-box">
+<div class="model-name">Multiple Nuclei Model</div>
+<div class="model-creator">Harris & Ullman, 1945</div>
+<p>City has <strong>several distinct centers</strong> (nuclei), not just one CBD. Different activities cluster around different nodes (airport, university, etc.).</p>
+</div>
+
+<h3>Modern Urban Models</h3>
+<ul>
+<li><strong>Galactic/Peripheral model</strong> — modern city with edge cities, beltways, sprawl</li>
+<li><strong>Edge city</strong> — major employment/retail center outside CBD (Tyson's Corner, VA)</li>
+</ul>
+
+<h3>Inner-City Issues</h3>
+<ul>
+<li><strong>Filtering</strong> — housing passes to lower-income over time</li>
+<li><strong>Redlining</strong> — banks deny loans in minority neighborhoods (illegal since 1977)</li>
+<li><strong>Blockbusting</strong> — agents scare homeowners into selling cheaply</li>
+<li><strong>Gentrification</strong> — higher-income renovates inner city → raises prices, displaces residents</li>
+<li><strong>Urban renewal</strong> — demolish + rebuild deteriorated areas</li>
+</ul>
+
+<h3>Suburban Issues & Solutions</h3>
+<ul>
+<li><strong>Sprawl</strong> — low-density development on periphery</li>
+<li><strong>Smart growth</strong> — policies to limit sprawl</li>
+<li><strong>New Urbanism</strong> — walkable, mixed-use, transit-oriented design</li>
+<li><strong>Zoning</strong> — government land-use regulations</li>
+<li><strong>Exclusionary zoning</strong> — large lots/single-family only → keeps out lower-income</li>
+</ul>
+
+<h3>Developing World City Models</h3>
+<div class="model-box">
+<div class="model-name">Latin American City Model</div>
+<div class="model-creator">Griffin-Ford</div>
+<p>CBD → <strong>elite spine</strong> (boulevard with wealthy housing) → zone of maturity → zone of accretion → <strong>periferico</strong> (squatter settlements on the edge)</p>
+</div>
+<p><strong>African cities</strong> — often 3 CBDs (colonial, traditional, modern)<br>
+<strong>SE Asian cities (McGee)</strong> — no dominant CBD, corridor-based commerce</p>`,
+
+14: `<h3>Resources</h3>
+<ul>
+<li><strong>Renewable</strong> — replenished naturally (solar, wind, water, wood)</li>
+<li><strong>Nonrenewable</strong> — finite supply (fossil fuels, minerals)</li>
+<li><strong>Sustainability</strong> — meeting present needs without compromising the future</li>
+</ul>
+
+<h3>Energy Sources</h3>
+<ul>
+<li><strong>Fossil fuels</strong> — coal, petroleum, natural gas (nonrenewable, major pollution)</li>
+<li><strong>Nuclear</strong> — powerful but waste disposal issues</li>
+<li><strong>Alternative</strong> — solar, wind, geothermal, hydroelectric</li>
+</ul>
+
+<h3>Environmental Challenges</h3>
+<ul>
+<li><strong>Climate change</strong> — rising temperatures from greenhouse gas emissions</li>
+<li><strong>Deforestation</strong> — clearing forests (Amazon, SE Asia)</li>
+<li><strong>Desertification</strong> — productive land becomes desert (overgrazing, drought)</li>
+<li><strong>Pollution</strong> — air, water, land contamination from industry and agriculture</li>
+<li><strong>Biodiversity loss</strong> — species extinction from habitat destruction</li>
+</ul>
+
+<h3>Key Concepts</h3>
+<ul>
+<li><strong>Greenhouse effect</strong> — gases trap heat in atmosphere</li>
+<li><strong>Acid rain</strong> — pollution causes acidic precipitation</li>
+<li><strong>Ozone depletion</strong> — thinning of protective ozone layer</li>
+<li><strong>Recycling</strong> — reduces need for raw material extraction</li>
+</ul>`
+};
+
+// FLASHCARD DATA
+const FLASHCARDS = {
+1:[
+{t:"Site",d:"Physical characteristics of a place (climate, terrain, water bodies)",e:"The site of Manhattan includes a flat island surrounded by rivers."},
+{t:"Situation",d:"Location of a place relative to other places",e:"Manhattan's situation at the mouth of the Hudson River made it a great port."},
+{t:"Formal Region",d:"Area where everyone shares a common characteristic",e:"The Corn Belt — states that grow mostly corn."},
+{t:"Functional Region",d:"Area organized around a central node or focal point",e:"A radio station's broadcast area or a pizza delivery zone."},
+{t:"Vernacular Region",d:"Region perceived to exist by people; fuzzy boundaries",e:"\"The South\" or \"the Midwest\" — people disagree on exact boundaries."},
+{t:"GIS",d:"Geographic Information System — computer system for capturing, storing, and analyzing spatial data",e:"Layering crime data over income data on a map to find patterns."},
+{t:"Relocation Diffusion",d:"Spread of ideas through physical movement of people",e:"Immigrants bringing food traditions to a new country."},
+{t:"Hierarchical Diffusion",d:"Spread from important/powerful places or people to others",e:"Fashion trends starting in Paris/NYC, then spreading to smaller cities."},
+{t:"Contagious Diffusion",d:"Rapid, widespread spread to nearby places/people",e:"A flu spreading through a school — proximity matters."},
+{t:"Stimulus Diffusion",d:"Underlying idea spreads but is adapted to local culture",e:"McDonald's concept → local fast-food chains in other countries."},
+{t:"Scale",d:"Level of geographic analysis (local → regional → national → global)",e:"Climate change is a global issue; a pothole is local."},
+{t:"Choropleth Map",d:"Thematic map using shading to show data by area",e:"A map of states shaded darker = higher population density."},
+{t:"Cartogram",d:"Map where areas are distorted to represent a variable",e:"Countries sized by population — India and China appear huge."},
+{t:"Spatial Association",d:"The degree to which things are similarly distributed in space",e:"Poverty and poor health outcomes are spatially associated."}
+],
+2:[
+{t:"Arithmetic Density",d:"Total population ÷ total land area",e:"US: ~330 million ÷ 3.8 million sq mi ≈ 87 people/sq mi"},
+{t:"Physiological Density",d:"Population ÷ arable (farmable) land",e:"Egypt has very high physiological density — most land is desert."},
+{t:"Agricultural Density",d:"Number of farmers ÷ arable land",e:"US has low ag density (few farmers, lots of tech). LDCs have high."},
+{t:"NIR (Natural Increase Rate)",d:"Annual population growth rate = CBR − CDR (as percentage)",e:"CBR of 20, CDR of 8 → NIR = 1.2%"},
+{t:"TFR (Total Fertility Rate)",d:"Average number of children a woman will have; replacement = 2.1",e:"Niger has TFR ~7; Japan has TFR ~1.3"},
+{t:"Demographic Transition Model",d:"Model showing 4-5 stages of population change as countries develop",e:"Stage 2: CDR drops, CBR stays high → rapid growth (Sub-Saharan Africa)"},
+{t:"Epidemiologic Transition",d:"Changing causes of death through development stages",e:"Stage 1: plague/famine → Stage 3: heart disease/cancer"},
+{t:"Doubling Time",d:"Years for population to double ≈ 70 ÷ NIR",e:"NIR of 2% → doubling in ~35 years"},
+{t:"Malthusian Theory",d:"Population grows exponentially, food grows linearly → catastrophe",e:"Critics: Green Revolution proved food production can keep up."},
+{t:"Pro-natalist Policy",d:"Government policy encouraging more births",e:"France: paid parental leave, child tax benefits"},
+{t:"Anti-natalist Policy",d:"Government policy discouraging births",e:"China's one-child policy (1979-2015)"},
+{t:"IMR (Infant Mortality Rate)",d:"Deaths of infants under 1 year per 1,000 live births",e:"High IMR = poor healthcare. US ~5.4; Sierra Leone ~80+"},
+{t:"CBR (Crude Birth Rate)",d:"Number of births per 1,000 people per year",e:"High in Stage 2 countries; low in Stage 4."},
+{t:"CDR (Crude Death Rate)",d:"Number of deaths per 1,000 people per year",e:"Drops first in DTM due to improved medicine/sanitation."}
+],
+3:[
+{t:"Push Factor",d:"Negative condition that drives people away from a place",e:"War, poverty, famine, political persecution"},
+{t:"Pull Factor",d:"Positive condition that attracts people to a new place",e:"Job opportunities, political freedom, family connections"},
+{t:"Intervening Obstacle",d:"Barrier between origin and destination that makes migration harder",e:"Oceans, mountains, immigration laws, cost of travel"},
+{t:"Chain Migration",d:"Migrants follow family/friends who moved before them",e:"One family member gets a job, then sponsors relatives."},
+{t:"Brain Drain",d:"Loss of educated/skilled people from developing countries",e:"Doctors leaving Nigeria for the UK or US"},
+{t:"Remittances",d:"Money sent home by migrants to their families",e:"Mexican workers in US sending money to family — huge GDP share for Mexico."},
+{t:"Step Migration",d:"Migration in stages: village → town → city",e:"A farmer moves to a small town, then eventually to the capital."},
+{t:"Refugee",d:"Person who flees to another country due to persecution or danger",e:"Syrian refugees fleeing civil war to Turkey and Europe."},
+{t:"IDP (Internally Displaced Person)",d:"Forced to flee but stays within their own country's borders",e:"People displaced by Hurricane Katrina within the US."},
+{t:"Voluntary Migration",d:"Choosing to move (usually for economic reasons)",e:"Moving from Iowa to California for a better job."},
+{t:"Forced Migration",d:"Being made to move against your will",e:"Atlantic slave trade, Trail of Tears, refugee crises."},
+{t:"Guest Worker",d:"Temporary labor migrant in a foreign country",e:"Turkish Gastarbeiter in Germany in the 1960s-70s."},
+{t:"Ravenstein's Laws",d:"Observations about migration patterns (most migrate short distances, etc.)",e:"Long-distance migrants tend to go to major cities."}
+],
+4:[
+{t:"Folk Culture",d:"Traditional practices of small, homogeneous groups; spreads slowly through relocation diffusion",e:"Amish communities maintaining traditional farming and dress."},
+{t:"Popular Culture",d:"Practices of large, heterogeneous societies; spreads rapidly through hierarchical diffusion",e:"Fast food, jeans, social media — found globally."},
+{t:"Placelessness",d:"Loss of uniqueness as popular culture creates uniform landscapes everywhere",e:"Same chain stores and restaurants in every American suburb."},
+{t:"Cultural Landscape",d:"The visible imprint of human activity on the natural landscape",e:"Rice terraces in Philippines, Manhattan skyline, English hedgerows."},
+{t:"Cultural Imperialism",d:"Dominance of one culture's values/practices over another",e:"\"Americanization\" — Hollywood movies, McDonald's spreading globally."},
+{t:"Taboo",d:"A cultural restriction on behavior",e:"Hindus don't eat beef; Muslims and Jews don't eat pork."}
+],
+5:[
+{t:"Language Family",d:"Collection of languages related through a common ancestral language",e:"Indo-European family includes English, Spanish, Hindi, Russian."},
+{t:"Lingua Franca",d:"Common language used between groups with different native languages",e:"English is the global lingua franca; Swahili in East Africa."},
+{t:"Pidgin Language",d:"Simplified language for communication between groups",e:"Tok Pisin in Papua New Guinea, originally for trade."},
+{t:"Creole Language",d:"A pidgin that becomes someone's native language",e:"Haitian Creole evolved from French pidgin."},
+{t:"Isolated Language",d:"A language unrelated to any other language family",e:"Basque (spoken in Spain/France) — origin unknown."},
+{t:"Dialect",d:"Regional variation of a language (pronunciation, vocabulary, grammar)",e:"Southern American English vs. New England English."},
+{t:"Indo-European Family",d:"Largest language family; ~45% of world speaks one",e:"Branches: Germanic, Romance, Slavic, Indo-Iranian."},
+{t:"Extinct Language",d:"A language with no remaining native speakers",e:"Latin (as a daily spoken language), many indigenous languages."}
+],
+6:[
+{t:"Universalizing Religion",d:"Religion that actively seeks converts and aims to be global",e:"Christianity, Islam, Buddhism"},
+{t:"Ethnic Religion",d:"Religion tied to a particular ethnic group; doesn't seek converts",e:"Hinduism, Judaism, Shinto"},
+{t:"Monotheistic",d:"Belief in one god",e:"Christianity, Islam, Judaism"},
+{t:"Polytheistic",d:"Belief in multiple gods",e:"Hinduism (Brahma, Vishnu, Shiva)"},
+{t:"Sunni vs. Shia",d:"Two main branches of Islam; disagree on Muhammad's successor",e:"Sunni = ~85% of Muslims; Shia = ~15% (concentrated in Iran, Iraq)"},
+{t:"Diaspora",d:"Scattering of a people from their homeland",e:"Jewish diaspora from Palestine; African diaspora from slave trade."},
+{t:"Secularism",d:"Decline of religious influence in public/political life",e:"Growing in Western Europe; separation of church and state."},
+{t:"Interfaith Conflict",d:"Conflict between different religions",e:"Crusades, Israel-Palestine conflict."},
+{t:"Intrafaith Conflict",d:"Conflict within the same religion",e:"Sunni vs. Shia; Catholic vs. Protestant in Northern Ireland."},
+{t:"Pilgrimage",d:"Journey to a sacred religious place",e:"Hajj to Mecca (Islam); Varanasi for Hindus."}
+],
+7:[
+{t:"Ethnicity",d:"Identity with a group sharing cultural traditions and a homeland",e:"Hispanic/Latino, African American, Korean American"},
+{t:"Race",d:"Identity based on perceived biological/physical differences (socially constructed)",e:"Racial categories vary by country; not based on genetics."},
+{t:"Apartheid",d:"Legal system of racial segregation in South Africa (1948-1994)",e:"Non-whites couldn't vote, use same facilities, or live in white areas."},
+{t:"Ethnic Cleansing",d:"Forced removal of an ethnic group from an area",e:"Bosnian Serbs forcing Muslims out of territory in the 1990s."},
+{t:"Genocide",d:"Deliberate, systematic killing of an ethnic or cultural group",e:"Holocaust, Rwanda (1994), Armenian genocide."},
+{t:"Centripetal Force",d:"Something that unites a country/state",e:"Shared language, national anthem, common enemy."},
+{t:"Centrifugal Force",d:"Something that divides a country/state",e:"Ethnic conflict, economic inequality, linguistic differences."},
+{t:"Balkanization",d:"Fragmentation of a state into smaller, often hostile, units",e:"Yugoslavia breaking into Serbia, Croatia, Bosnia, etc."}
+],
+8:[
+{t:"Nation-State",d:"A state whose territory corresponds to the homeland of one nation",e:"Japan, Iceland — mostly one ethnic/cultural group."},
+{t:"Stateless Nation",d:"An ethnic group/nation without its own state",e:"Kurds (spread across Iraq, Turkey, Syria, Iran), Palestinians."},
+{t:"Sovereignty",d:"Supreme authority within territorial boundaries",e:"A country controls its own laws, borders, and foreign policy."},
+{t:"Superimposed Boundary",d:"Border drawn by outsiders, ignoring existing cultural patterns",e:"Most African borders drawn by European colonizers at Berlin Conference."},
+{t:"Antecedent Boundary",d:"Border established before the area was heavily settled",e:"US-Canada border along the 49th parallel."},
+{t:"Gerrymandering",d:"Manipulating voting district boundaries for political advantage",e:"Packing opposition voters into one district; cracking them across many."},
+{t:"Devolution",d:"Transfer of power from central to regional government",e:"Scotland gaining its own parliament from the UK."},
+{t:"Federal State",d:"Government where power is shared between central and regional levels",e:"United States, Germany, India, Canada."},
+{t:"Unitary State",d:"Government where power is concentrated in the central authority",e:"France, China, Japan."},
+{t:"Colonialism",d:"Establishing control over a foreign territory and its people",e:"British Empire, French colonies in Africa."}
+],
+9:[
+{t:"HDI (Human Development Index)",d:"UN measure combining life expectancy, education, and income",e:"Norway consistently ranks near the top; Niger near the bottom."},
+{t:"GDP per Capita",d:"Total economic output divided by population",e:"High in US, Luxembourg; low in Burundi, South Sudan."},
+{t:"Rostow's Modernization Model",d:"5 stages of economic development from traditional to mass consumption",e:"Criticized as Western-centric; assumes all countries follow one path."},
+{t:"World Systems Theory",d:"Global economy divided into core, semi-periphery, and periphery",e:"Core (US, Europe) exploits periphery (much of Africa) for cheap labor/resources."},
+{t:"Dependency Theory",d:"LDCs are poor BECAUSE of exploitation by MDCs",e:"Colonial powers structured economies to export raw materials, not develop."},
+{t:"Structural Adjustment",d:"IMF/World Bank loans with conditions (cut subsidies, privatize)",e:"Criticized for hurting the poor while satisfying lenders."},
+{t:"Microfinance",d:"Small loans to entrepreneurs in developing countries",e:"Grameen Bank in Bangladesh lending to women entrepreneurs."},
+{t:"FDI (Foreign Direct Investment)",d:"Investment by a company in a foreign country's business",e:"Toyota building a factory in Mississippi."}
+],
+10:[
+{t:"Green Revolution",d:"1960s+ introduction of high-yield seeds, fertilizers, irrigation in LDCs",e:"Dramatically increased wheat/rice production in India and Mexico."},
+{t:"Von Thünen Model",d:"Agricultural land use in concentric rings around a market center",e:"Dairy near city (perishable), grain farther, ranching farthest."},
+{t:"Shifting Cultivation",d:"Slash-and-burn farming; clear land, farm, move on when soil is depleted",e:"Common in tropical rainforests of Amazon, SE Asia, Central Africa."},
+{t:"Pastoral Nomadism",d:"Moving herds of animals across large areas of arid land",e:"Bedouins in Middle East, Maasai in East Africa."},
+{t:"Transhumance",d:"Seasonal movement of livestock between pastures",e:"Alpine herders moving cattle to high meadows in summer."},
+{t:"Agribusiness",d:"Large-scale, corporate commercial farming",e:"Cargill, Monsanto/Bayer — massive agricultural corporations."},
+{t:"Food Desert",d:"Area with limited access to affordable, nutritious food",e:"Inner-city neighborhoods with only convenience stores, no grocery."},
+{t:"Subsistence Agriculture",d:"Farming primarily to feed one's own family, not for sale",e:"Small rice paddies in rural Vietnam or cassava farming in Congo."},
+{t:"Commercial Agriculture",d:"Farming for profit, selling products to market",e:"Corn and soybean farms in Iowa."},
+{t:"Aquaculture",d:"Farming of fish and seafood",e:"Salmon farms in Norway, shrimp farms in Thailand."}
+],
+11:[
+{t:"Bulk-Reducing Industry",d:"Output weighs less than inputs → locate near raw materials",e:"Copper smelting, steel production, sawmills."},
+{t:"Bulk-Gaining Industry",d:"Output weighs more or costs more to ship → locate near market",e:"Soft drink bottling (adding water), bread baking."},
+{t:"Break-of-Bulk Point",d:"Location where goods are transferred between transportation modes",e:"Ports where ships unload to trains/trucks."},
+{t:"Weber's Least Cost Theory",d:"Industry locates where transportation + labor costs are minimized",e:"A factory between its raw material source and its market."},
+{t:"Agglomeration",d:"Clustering of industries/businesses for mutual benefit",e:"Silicon Valley — tech companies near each other share talent/ideas."},
+{t:"Fordism",d:"Mass production using assembly lines (Henry Ford, early 1900s)",e:"Model T production — same car, fast, cheap."},
+{t:"Post-Fordism",d:"Flexible production: small batches, just-in-time delivery, customization",e:"Toyota's lean manufacturing system."},
+{t:"NIDL",d:"New International Division of Labor — manufacturing shifts to developing countries for cheap labor",e:"iPhone designed in California, assembled in China."},
+{t:"Maquiladora",d:"US-owned factory in Mexico near the border, using cheap labor",e:"Auto parts and electronics assembly plants in Ciudad Juárez."},
+{t:"Outsourcing",d:"Contracting work to an external company",e:"A US company hiring an Indian firm for customer service."}
+],
+12:[
+{t:"Central Place Theory",d:"Christaller's model explaining how services distribute in a hierarchy of settlements",e:"Small towns: gas station. Cities: hospitals. Metros: pro sports teams."},
+{t:"Range",d:"Maximum distance consumers will travel for a service",e:"People drive 5 min for coffee, 30 min for a doctor, hours for a specialist."},
+{t:"Threshold",d:"Minimum number of people needed to support a service/business",e:"A movie theater needs more people than a gas station to survive."},
+{t:"Market Area / Hinterland",d:"The surrounding area served by a central place; hexagonal shape",e:"A Walmart serves a wider hinterland than a Dollar General."},
+{t:"Rank-Size Rule",d:"2nd largest city = ½ the largest; 3rd = ⅓, etc.",e:"US follows this: NYC, LA, Chicago roughly follow the pattern."},
+{t:"Primate City",d:"Largest city is disproportionately larger than the 2nd largest (>2×)",e:"Paris is ~7× larger than Lyon. London dominates the UK."},
+{t:"Gravity Model",d:"Interaction between places ∝ population / distance",e:"NYC and LA interact a lot (both huge); two small towns far apart don't."},
+{t:"Basic Industry",d:"Sells products/services outside the community, brings money in",e:"A car factory exports cars = basic. Local barber = non-basic."},
+{t:"World/Global City",d:"Command center for the global economy",e:"New York, London, Tokyo — headquarters of major corporations."}
+],
+13:[
+{t:"CBD (Central Business District)",d:"The commercial and business center of a city",e:"Downtown Manhattan, the Loop in Chicago."},
+{t:"Concentric Zone Model",d:"Burgess (1925) — city grows in rings outward from CBD",e:"Based on Chicago. CBD → transition → working → middle → commuter."},
+{t:"Sector Model",d:"Hoyt (1939) — city grows in wedge-shaped sectors along transport routes",e:"Rich neighborhoods extend outward along a boulevard; industry along rail."},
+{t:"Multiple Nuclei Model",d:"Harris & Ullman (1945) — city has several distinct centers of activity",e:"Airport area, university district, suburban mall — each is a nucleus."},
+{t:"Gentrification",d:"Higher-income people renovate deteriorated inner-city neighborhoods",e:"Brooklyn, NY — rising rents push out long-time low-income residents."},
+{t:"Redlining",d:"Banks refusing loans in certain (minority) neighborhoods",e:"Illegal since 1977 but effects persist in wealth gaps today."},
+{t:"Sprawl",d:"Low-density development spreading outward from a city",e:"Endless subdivisions, strip malls, and highways around Phoenix or Atlanta."},
+{t:"New Urbanism",d:"Design movement promoting walkable, mixed-use, transit-friendly neighborhoods",e:"Seaside, Florida; Portland's urban growth boundary."},
+{t:"Edge City",d:"Substantial office/retail center outside the traditional CBD",e:"Tysons Corner, VA; Schaumburg, IL."},
+{t:"Latin American City Model",d:"Griffin-Ford model: CBD → elite spine → periferico (squatter settlements)",e:"Rich live along a central boulevard; poorest on the outskirts."},
+{t:"Squatter Settlement",d:"Informal housing built by people without legal claim to the land",e:"Favelas in Rio, barriadas in Lima, bustees in Kolkata."},
+{t:"Blockbusting",d:"Agents convince homeowners to sell cheaply by stoking racial fears",e:"\"Your neighborhood is changing...\" → panic selling → profit for agents."}
+],
+14:[
+{t:"Renewable Resource",d:"Resource that can be replenished naturally",e:"Solar, wind, water, timber (if managed sustainably)."},
+{t:"Nonrenewable Resource",d:"Resource with a finite supply that cannot be replenished",e:"Coal, petroleum, natural gas, minerals."},
+{t:"Sustainability",d:"Meeting present needs without compromising future generations' ability to meet theirs",e:"Using solar instead of coal; sustainable forestry."},
+{t:"Fossil Fuel",d:"Energy from ancient organic matter: coal, oil, natural gas",e:"Powers most transportation and electricity; major pollution source."},
+{t:"Desertification",d:"Productive land becomes desert-like due to overuse or drought",e:"Sahel region of Africa expanding southward."},
+{t:"Deforestation",d:"Clearing of forests for agriculture or development",e:"Amazon rainforest cleared for cattle ranching and soy."}
+]
+};
+
+// QUIZ DATA
+const QUIZZES = {
+1:[
+{q:"Which type of region is defined by a central node and the surrounding area it serves?",o:["Formal region","Functional region","Vernacular region","Physical region"],a:1,exp:"Functional regions are organized around a focal point, like a TV broadcast area."},
+{q:"A map where country sizes are distorted to represent population is called a:",o:["Choropleth map","Isoline map","Cartogram","Dot distribution map"],a:2,exp:"Cartograms resize areas based on a data variable like population or GDP."},
+{q:"When a fashion trend starts in Paris and spreads to other major cities before reaching small towns, this is:",o:["Contagious diffusion","Relocation diffusion","Hierarchical diffusion","Stimulus diffusion"],a:2,exp:"Hierarchical diffusion spreads from important places/people to less important ones."},
+{q:"The physical characteristics of a place (terrain, climate, water) describe its:",o:["Situation","Site","Region","Scale"],a:1,exp:"Site = physical features. Situation = relative location to other places."},
+{q:"GPS, GIS, and remote sensing are all examples of:",o:["Map projections","Contemporary geographic tools","Cultural landscapes","Reference maps"],a:1,exp:"These modern tools help geographers collect, store, and analyze spatial data."},
+{q:"When the concept of McDonald's fast food inspires similar local chains in other countries, this is:",o:["Contagious diffusion","Relocation diffusion","Hierarchical diffusion","Stimulus diffusion"],a:3,exp:"The underlying idea spreads but is adapted to local culture."},
+{q:"The Mercator projection is criticized because it:",o:["Distorts shapes near the equator","Makes Greenland appear as large as Africa","Cannot show ocean routes","Only works for the Western Hemisphere"],a:1,exp:"Mercator preserves shapes but drastically distorts size, especially near the poles."},
+{q:"'The South' as a region of the US is best described as a:",o:["Formal region","Functional region","Vernacular region","Physical region"],a:2,exp:"Vernacular/perceptual regions exist in people's minds with fuzzy boundaries."},
+{q:"The arrangement of features in space — whether clustered or dispersed — is called:",o:["Pattern","Density","Concentration","Scale"],a:2,exp:"Concentration describes how spread out features are: clustered vs. dispersed."},
+{q:"Which map type uses shading to show data values for defined areas?",o:["Dot distribution","Proportional symbol","Choropleth","Isoline"],a:2,exp:"Choropleth maps shade areas (states, countries) to represent data values."}
+],
+2:[
+{q:"Which density measure best indicates pressure on agricultural land?",o:["Arithmetic density","Physiological density","Agricultural density","Population density"],a:1,exp:"Physiological density = population ÷ arable land. High = lots of pressure on farmland."},
+{q:"In Stage 2 of the DTM, what causes rapid population growth?",o:["CBR rises sharply","CDR drops while CBR stays high","Both CBR and CDR drop equally","Immigration increases"],a:1,exp:"Medical advances and better sanitation lower CDR, but cultural norms keep CBR high."},
+{q:"A country with a TFR of 1.3 is most likely in which DTM stage?",o:["Stage 1","Stage 2","Stage 3","Stage 4 or 5"],a:3,exp:"TFR below replacement (2.1) indicates Stage 4-5 with declining population."},
+{q:"Malthus predicted that population would outstrip food supply because:",o:["Population grows arithmetically, food geometrically","Population grows geometrically, food arithmetically","Both grow at the same rate","Food production would stop entirely"],a:1,exp:"Malthus: population grows exponentially (2,4,8,16) while food grows linearly (1,2,3,4)."},
+{q:"China's one-child policy is an example of:",o:["Pro-natalist policy","Anti-natalist policy","Immigration policy","Demographic transition"],a:1,exp:"Anti-natalist policies discourage births to slow population growth."},
+{q:"The epidemiologic transition describes changes in:",o:["Migration patterns","Birth rates","Causes of death","Language diffusion"],a:2,exp:"It tracks how diseases shift from infectious (Stage 1) to degenerative (Stage 3-4)."},
+{q:"Doubling time for a country with NIR of 2% is approximately:",o:["20 years","35 years","50 years","70 years"],a:1,exp:"Doubling time ≈ 70 ÷ NIR. 70 ÷ 2 = 35 years."},
+{q:"Which measure counts births per 1,000 people annually?",o:["NIR","TFR","CBR","IMR"],a:2,exp:"Crude Birth Rate = births per 1,000 people. 'Crude' because it doesn't account for age."},
+{q:"Egypt has a very high physiological density because:",o:["It has many farmers","Most of its land is desert (non-arable)","Its population is small","It imports all food"],a:1,exp:"Most Egyptians live on a tiny strip of arable land along the Nile. Vast desert = high physiological density."},
+{q:"The portion of Earth's surface that is permanently inhabited is called the:",o:["Biosphere","Lithosphere","Ecumene","Atmosphere"],a:2,exp:"Ecumene = inhabited Earth. Much of Earth (deserts, ice caps, mountains) is not permanently inhabited."}
+],
+3:[
+{q:"A Mexican worker sending money home to family is an example of:",o:["Brain drain","Remittances","Chain migration","Step migration"],a:1,exp:"Remittances = money sent home by migrants. Major income source for many developing countries."},
+{q:"A person who flees persecution but stays within their own country is called:",o:["Refugee","Asylum seeker","IDP (Internally Displaced Person)","Economic migrant"],a:2,exp:"IDPs are forced to flee but don't cross an international border. Refugees cross borders."},
+{q:"Which is a pull factor?",o:["War in homeland","Job opportunities abroad","Religious persecution","Environmental disaster"],a:1,exp:"Pull factors attract people TO a destination: jobs, freedom, safety, family."},
+{q:"The movement of African Americans from the rural South to Northern cities (1910s-1970s) is called the:",o:["Trail of Tears","Great Migration","Manifest Destiny","Atlantic Migration"],a:1,exp:"The Great Migration: ~6 million African Americans moved north for jobs and to escape Jim Crow."},
+{q:"When doctors leave Nigeria to practice in the UK, this is called:",o:["Chain migration","Step migration","Brain drain","Counter-migration"],a:2,exp:"Brain drain = loss of educated/skilled people from developing to developed countries."},
+{q:"According to Ravenstein, most migration occurs over:",o:["Long distances","Short distances","International borders","Oceans"],a:1,exp:"Ravenstein's Laws: most migrants travel short distances; long-distance migrants go to big cities."},
+{q:"Moving from a village to a town, then to a city, is called:",o:["Chain migration","Circular migration","Step migration","Forced migration"],a:2,exp:"Step migration = migrating in stages through progressively larger places."},
+{q:"Guest workers (Gastarbeiter) in Germany were primarily from:",o:["France","Turkey","Japan","Brazil"],a:1,exp:"Germany recruited Turkish guest workers in the 1960s-70s to fill labor shortages."},
+{q:"Mountains, oceans, and immigration laws are all examples of:",o:["Push factors","Pull factors","Intervening obstacles","Voluntary migration"],a:2,exp:"Intervening obstacles are barriers that make migration more difficult."},
+{q:"The US Immigration Act of 1965 primarily increased immigration from:",o:["Western Europe","Eastern Europe","Latin America and Asia","Africa"],a:2,exp:"The 1965 act removed national-origin quotas, opening doors to Latin American and Asian immigrants."}
+],
+4:[
+{q:"Folk culture primarily spreads through:",o:["Hierarchical diffusion","Contagious diffusion","Relocation diffusion","Stimulus diffusion"],a:2,exp:"Folk culture spreads when people physically move (migrate) and bring traditions with them."},
+{q:"The loss of local uniqueness due to global popular culture is called:",o:["Acculturation","Assimilation","Placelessness","Balkanization"],a:2,exp:"Placelessness = everywhere looks the same (same chain stores, same architecture)."},
+{q:"Which is an example of a cultural taboo?",o:["Eating hamburgers in America","Hindus not eating beef","Using chopsticks in China","Drinking coffee in Seattle"],a:1,exp:"Hinduism considers cows sacred, making beef consumption taboo."},
+{q:"Popular culture tends to create landscapes that are:",o:["Diverse and unique","Uniform and standardized","Isolated and traditional","Rural and agricultural"],a:1,exp:"Popular culture homogenizes landscapes — same stores, same look everywhere."},
+{q:"Which housing type reflects folk culture's use of local materials?",o:["Split-level suburban home","Steel skyscraper","New England saltbox (wood, stone)","Strip mall"],a:2,exp:"Folk housing uses locally available materials and reflects regional climate/traditions."}
+],
+5:[
+{q:"The largest language family by number of speakers is:",o:["Sino-Tibetan","Afro-Asiatic","Indo-European","Niger-Congo"],a:2,exp:"Indo-European includes English, Spanish, Hindi, Russian — about 45% of world's speakers."},
+{q:"English serves as a global:",o:["Creole","Pidgin","Lingua franca","Isolated language"],a:2,exp:"A lingua franca is a common language used between groups with different native languages."},
+{q:"Basque is an example of:",o:["A creole language","A pidgin language","An isolated language","An extinct language"],a:2,exp:"Basque (Spain/France) has no known relationship to any other language family."},
+{q:"A pidgin that becomes a native language for a community is called:",o:["A dialect","A lingua franca","A creole","An isolated language"],a:2,exp:"When children grow up speaking a pidgin as their first language, it becomes a creole."},
+{q:"The hypothesis that Indo-European languages spread with agriculture from Turkey is the:",o:["Kurgan hypothesis","Anatolian hypothesis","Renfrew hypothesis","Sapir-Whorf hypothesis"],a:1,exp:"The Anatolian (Renfrew) hypothesis links language spread to the diffusion of farming."}
+],
+6:[
+{q:"Which is NOT a universalizing religion?",o:["Christianity","Islam","Buddhism","Hinduism"],a:3,exp:"Hinduism is an ethnic religion — it doesn't actively seek converts and is tied to Indian culture."},
+{q:"The two main branches of Islam are:",o:["Catholic and Protestant","Theravada and Mahayana","Sunni and Shia","Orthodox and Reform"],a:2,exp:"Sunni (~85%) and Shia (~15%) — divided over succession after Muhammad."},
+{q:"The hajj pilgrimage to Mecca is one of Islam's:",o:["Four Noble Truths","Five Pillars","Ten Commandments","Seven Sacraments"],a:1,exp:"The Five Pillars: faith, prayer, charity, fasting during Ramadan, and hajj."},
+{q:"Conflict between Sunni and Shia Muslims is an example of:",o:["Interfaith conflict","Intrafaith conflict","Secularism","Fundamentalism"],a:1,exp:"Intrafaith = conflict within the same religion (both are Muslim)."},
+{q:"The scattering of Jews from Palestine is known as the:",o:["Exodus","Hajj","Diaspora","Migration"],a:2,exp:"Diaspora refers to the dispersion of Jews (and by extension, any group) from their homeland."},
+{q:"Buddhism originated in:",o:["China","Japan","Northeast India","Southeast Asia"],a:2,exp:"Siddhartha Gautama (the Buddha) achieved enlightenment in northeast India."}
+],
+7:[
+{q:"The breakup of Yugoslavia into smaller countries is an example of:",o:["Supranationalism","Devolution","Balkanization","Colonialism"],a:2,exp:"Balkanization = fragmentation of a state into smaller, often hostile ethnic units."},
+{q:"South Africa's system of legal racial segregation was called:",o:["Jim Crow","Apartheid","Gerrymandering","Devolution"],a:1,exp:"Apartheid (1948-1994) legally separated racial groups and denied rights to non-whites."},
+{q:"A shared language that unifies a country is an example of:",o:["Centrifugal force","Centripetal force","Devolution","Balkanization"],a:1,exp:"Centripetal forces unite a state. A common language helps hold a country together."},
+{q:"Ethnicity differs from race because ethnicity is based on:",o:["Biological characteristics","Shared cultural traditions and homeland","Physical appearance","Genetic markers"],a:1,exp:"Ethnicity = shared culture/heritage. Race = perceived physical/biological traits (socially constructed)."},
+{q:"The deliberate, systematic killing of an ethnic group is:",o:["Ethnic cleansing","Apartheid","Genocide","Segregation"],a:2,exp:"Genocide = intentional destruction of a group. Examples: Holocaust, Rwanda."}
+],
+8:[
+{q:"A nation that does not have its own state is called a:",o:["Multinational state","Nation-state","Stateless nation","Multistate nation"],a:2,exp:"Stateless nations like the Kurds have a shared identity but no sovereign territory."},
+{q:"Borders drawn by European colonizers in Africa without regard for ethnic groups are:",o:["Antecedent boundaries","Subsequent boundaries","Superimposed boundaries","Natural boundaries"],a:2,exp:"Superimposed boundaries are forced on existing cultures by outside powers."},
+{q:"Chile is an example of which state shape?",o:["Compact","Elongated","Prorupted","Fragmented"],a:1,exp:"Chile is extremely long and narrow — the classic elongated state."},
+{q:"Drawing voting districts to benefit one political party is called:",o:["Devolution","Gerrymandering","Balkanization","Supranationalism"],a:1,exp:"Gerrymandering manipulates district boundaries through packing and cracking."},
+{q:"The European Union is an example of:",o:["Devolution","Colonialism","Supranationalism","Balkanization"],a:2,exp:"Supranationalism = states cooperate and give up some sovereignty to a larger body."},
+{q:"In a federal state, power is:",o:["Concentrated in the central government","Shared between central and regional governments","Held by religious leaders","Divided among ethnic groups"],a:1,exp:"Federal states (US, Germany) share power between national and state/regional levels."}
+],
+9:[
+{q:"The Human Development Index (HDI) combines:",o:["GDP, military spending, and population","Life expectancy, education, and income","Birth rate, death rate, and migration","Agricultural output, industry, and services"],a:1,exp:"HDI = life expectancy + education (literacy/enrollment) + GDP per capita."},
+{q:"In Wallerstein's World Systems Theory, which countries are in the 'core'?",o:["The poorest, least developed","Middle-income, industrializing","Wealthy, industrialized nations","Countries with large militaries"],a:2,exp:"Core countries (US, Europe, Japan) dominate the global economy and exploit the periphery."},
+{q:"Stage 3 of Rostow's model is called:",o:["Traditional society","Preconditions for takeoff","Takeoff","Drive to maturity"],a:2,exp:"Takeoff = rapid industrialization and urbanization begin."},
+{q:"Small loans to entrepreneurs in developing countries is called:",o:["Structural adjustment","Foreign direct investment","Microfinance","Fair trade"],a:2,exp:"Microfinance (Grameen Bank) provides tiny loans to help people start businesses."},
+{q:"The 'Asian Tigers' developed through a strategy of:",o:["Self-sufficiency","International trade","Isolationism","Subsistence farming"],a:1,exp:"South Korea, Taiwan, Singapore, Hong Kong focused on export industries for rapid growth."}
+],
+10:[
+{q:"In Von Thünen's model, which activity is closest to the market center?",o:["Ranching","Grain farming","Dairy and market gardening","Forest"],a:2,exp:"Perishable products (dairy, vegetables) must be closest to minimize spoilage."},
+{q:"The Green Revolution involved:",o:["Organic farming techniques","High-yield seeds, fertilizers, and irrigation","A return to subsistence farming","Banning pesticides worldwide"],a:1,exp:"The Green Revolution dramatically increased food production using modern agricultural technology."},
+{q:"Slash-and-burn farming is also known as:",o:["Pastoral nomadism","Plantation agriculture","Shifting cultivation","Mixed crop and livestock"],a:2,exp:"Shifting cultivation: clear forest by burning, farm until soil is depleted, then move."},
+{q:"Seasonal movement of livestock between pastures is called:",o:["Pastoral nomadism","Transhumance","Plantation farming","Agribusiness"],a:1,exp:"Transhumance = seasonal vertical migration (lowlands in winter, highlands in summer)."},
+{q:"An area with limited access to affordable, nutritious food is called a:",o:["Food desert","Breadbasket","Agricultural zone","Milkshed"],a:0,exp:"Food deserts are often found in low-income urban areas with no nearby grocery stores."},
+{q:"Large-scale corporate farming is known as:",o:["Subsistence agriculture","Plantation farming","Agribusiness","Shifting cultivation"],a:2,exp:"Agribusiness = commercialized, corporate-run agriculture (Cargill, Monsanto)."}
+],
+11:[
+{q:"A copper smelting plant locates near the mine because copper ore is a:",o:["Bulk-gaining product","Perishable product","Bulk-reducing product","Finished good"],a:2,exp:"Bulk-reducing: the raw material (ore) is heavier than the output (copper) → locate near inputs."},
+{q:"Weber's Least Cost Theory says industry locates to minimize:",o:["Labor costs only","Transportation and labor costs","Environmental impact","Government regulations"],a:1,exp:"Weber: minimize transport costs (to inputs + market) while considering labor and agglomeration."},
+{q:"Silicon Valley is an example of:",o:["Deglomeration","Outsourcing","Agglomeration","Fordism"],a:2,exp:"Agglomeration = businesses clustering together for mutual benefit (shared talent, ideas, services)."},
+{q:"The shift from mass production to flexible, small-batch manufacturing is:",o:["Fordism to Post-Fordism","Outsourcing to insourcing","Primary to secondary sector","Deglomeration to agglomeration"],a:0,exp:"Fordism = assembly lines, mass production. Post-Fordism = flexible, just-in-time, customized."},
+{q:"US-owned factories in Mexico near the border are called:",o:["Sweatshops","Maquiladoras","Plantations","Export processing zones"],a:1,exp:"Maquiladoras take advantage of cheap Mexican labor close to the US market."},
+{q:"The NIDL refers to:",o:["New trade agreements between developed nations","Manufacturing shifting to developing countries for cheap labor","Division of labor within a single factory","Agricultural specialization by region"],a:1,exp:"New International Division of Labor: manufacturing goes where labor is cheapest."}
+],
+12:[
+{q:"In Central Place Theory, the minimum population needed to support a business is called:",o:["Range","Hinterland","Threshold","Market area"],a:2,exp:"Threshold = minimum # of people to keep a service profitable. Higher for specialized services."},
+{q:"A country where the largest city is more than twice the size of the second largest has a:",o:["Rank-size distribution","Primate city","Central place","Gravity model"],a:1,exp:"Primate city dominates disproportionately. Examples: Paris, London, Bangkok."},
+{q:"The gravity model predicts that interaction between two places increases with:",o:["Distance","Population","Elevation","Longitude"],a:1,exp:"Gravity model: interaction is proportional to population and inversely proportional to distance."},
+{q:"Central Place Theory was developed by:",o:["Von Thünen","Weber","Christaller","Burgess"],a:2,exp:"Walter Christaller (1933) explained how services distribute across space in a hierarchy."},
+{q:"An industry that brings money into a community from outside is called:",o:["Non-basic","Basic","Tertiary","Quaternary"],a:1,exp:"Basic industries export goods/services and bring outside money in. Non-basic serve locals."}
+],
+13:[
+{q:"The Concentric Zone Model was based on the city of:",o:["New York","Los Angeles","Chicago","London"],a:2,exp:"Burgess studied Chicago's growth pattern in concentric rings outward from the CBD."},
+{q:"In Hoyt's Sector Model, growth occurs in:",o:["Concentric rings","Wedge-shaped sectors along transport routes","Multiple scattered centers","Random patterns"],a:1,exp:"Sector Model: areas of similar land use extend outward from the CBD in pie-slice shapes."},
+{q:"When higher-income people renovate inner-city neighborhoods, displacing poorer residents:",o:["Filtering","Blockbusting","Gentrification","Redlining"],a:2,exp:"Gentrification raises property values and rents, pushing out original low-income residents."},
+{q:"Banks refusing loans to people in certain (minority) neighborhoods is called:",o:["Blockbusting","Gerrymandering","White flight","Redlining"],a:3,exp:"Redlining: banks drew red lines on maps around minority areas. Illegal since 1977."},
+{q:"The Griffin-Ford Model describes cities in:",o:["Europe","North America","Latin America","Southeast Asia"],a:2,exp:"Latin American city model: CBD → elite spine → zone of maturity → periferico (squatter settlements)."},
+{q:"Edge cities are characterized by:",o:["Being in the traditional CBD","Having substantial office/retail outside the CBD","Being exclusively residential","Located only in developing countries"],a:1,exp:"Edge cities like Tysons Corner, VA are major employment centers outside the old downtown."},
+{q:"The design movement promoting walkable, mixed-use neighborhoods is:",o:["Smart growth","New Urbanism","Suburbanization","Urban renewal"],a:1,exp:"New Urbanism: walkable, transit-oriented, mixed residential/commercial, diverse housing."},
+{q:"Informal housing in developing countries (favelas, barriadas) are called:",o:["Public housing","Gated communities","Squatter settlements","Edge cities"],a:2,exp:"Squatter settlements: self-built housing on land without legal ownership. Common in periphery of LDC cities."},
+{q:"The model showing modern cities with beltways and edge cities is the:",o:["Concentric Zone Model","Sector Model","Multiple Nuclei Model","Galactic/Peripheral Model"],a:3,exp:"The Galactic/Peripheral model describes contemporary auto-dependent cities with edge cities and beltways."},
+{q:"Low-density development spreading outward from cities is called:",o:["Gentrification","Urban renewal","Sprawl","Filtering"],a:2,exp:"Sprawl = suburban expansion, car-dependent, loss of farmland, strip malls."}
+],
+14:[
+{q:"Meeting present needs without compromising future generations is called:",o:["Conservation","Preservation","Sustainability","Recycling"],a:2,exp:"Sustainability is the core concept — balancing current use with long-term viability."},
+{q:"Coal, petroleum, and natural gas are all:",o:["Renewable resources","Fossil fuels","Alternative energy","Sustainable resources"],a:1,exp:"Fossil fuels formed from ancient organic matter. Nonrenewable and major pollutants."},
+{q:"Productive land becoming desert-like due to overgrazing is called:",o:["Deforestation","Desertification","Erosion","Pollution"],a:1,exp:"Desertification expands arid land, especially in the Sahel region of Africa."},
+{q:"Which is a renewable energy source?",o:["Natural gas","Coal","Solar power","Petroleum"],a:2,exp:"Solar is renewable — the sun replenishes it. Fossil fuels are finite."},
+{q:"The greenhouse effect is caused by:",o:["Ozone depletion","Gases trapping heat in the atmosphere","Acid rain","Deforestation only"],a:1,exp:"CO₂ and other greenhouse gases trap heat, causing global warming."}
+]
+};
+
+// GLOSSARY - built from all flashcard data
+const GLOSSARY = [];
+Object.entries(FLASHCARDS).forEach(([ch, cards]) => {
+  cards.forEach(c => {
+    GLOSSARY.push({term:c.t, def:c.d, chapter:parseInt(ch), example:c.e});
+  });
+});
+GLOSSARY.sort((a,b) => a.term.localeCompare(b.term));
+
+// ========== STATE ==========
+let currentTab = 'study';
+let currentChapter = null;
+let flashState = {chapter:null, index:0, known:{}};
+let quizState = {chapter:null, currentQ:0, answers:[], showingResults:false};
+
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('aphg-progress')||'{}'); } catch { return {}; }
+}
+function saveProgress(p) { localStorage.setItem('aphg-progress', JSON.stringify(p)); }
+
+// ========== COUNTDOWN ==========
+function updateCountdown() {
+  const exam = new Date('2026-05-05T08:00:00-06:00');
+  const now = new Date();
+  const diff = Math.max(0, Math.ceil((exam - now) / 86400000));
+  document.getElementById('countdown-days').textContent = diff;
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+// ========== PWA ==========
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredPrompt = e;
+  document.getElementById('installPrompt').style.display = 'flex';
+});
+function installPWA() {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(() => {
+    document.getElementById('installPrompt').style.display = 'none';
+    deferredPrompt = null;
+  });
+}
+
+// ========== HAPTICS ==========
+function haptic(type) {
+  if(!navigator.vibrate) return;
+  if(type==='light') navigator.vibrate(10);
+  else if(type==='medium') navigator.vibrate(20);
+  else if(type==='success') navigator.vibrate([10,50,10]);
+  else if(type==='error') navigator.vibrate([30,30,30]);
+}
+
+// ========== CONFETTI ==========
+function confetti(count=30) {
+  const colors = ['#6c5ce7','#a29bfe','#00b894','#fdcb6e','#ff6b6b','#74b9ff','#fd79a8'];
+  for(let i=0;i<count;i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random()*100+'vw';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDelay = Math.random()*0.5+'s';
+    el.style.animationDuration = (2+Math.random()*2)+'s';
+    el.style.width = (6+Math.random()*8)+'px';
+    el.style.height = (6+Math.random()*8)+'px';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 4000);
+  }
+}
+
+// ========== STREAK ==========
+function updateStreak() {
+  const p = getProgress();
+  const today = new Date().toISOString().slice(0,10);
+  const lastStudy = p._lastStudyDate;
+  if(lastStudy !== today) {
+    const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+    if(lastStudy === yesterday) {
+      p._streak = (p._streak||0) + 1;
+    } else if(lastStudy !== today) {
+      p._streak = 1;
+    }
+    p._lastStudyDate = today;
+    saveProgress(p);
+  }
+  const streak = p._streak || 0;
+  if(streak > 0) {
+    document.getElementById('streakArea').innerHTML = `<div class="streak-badge pop-in">🔥 ${streak} day streak</div>`;
+  }
+}
+updateStreak();
+
+// ========== SWIPE GESTURES ==========
+let touchStartX = 0, touchStartY = 0;
+document.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if(Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx)*0.7) return; // too short or too vertical
+  // Swipe on flashcards
+  if(currentTab === 'flash' && document.getElementById('flashcardArea').style.display !== 'none') {
+    if(dx < -60) { haptic('light'); flashAction('dunno'); } // swipe left = don't know
+    else if(dx > 60) { haptic('success'); flashAction('know'); } // swipe right = know it
+  }
+}, {passive:true});
+
+// ========== NAVIGATION ==========
+document.querySelectorAll('.nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.tab;
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('sec-'+currentTab).classList.add('active');
+    if (currentTab === 'glossary') renderGlossary();
+    if (currentTab === 'progress') renderProgress();
+    if (currentTab === 'flash') renderFlashChapterSelect();
+    if (currentTab === 'quiz') renderQuizChapterSelect();
+  });
+});
+
+// ========== STUDY ==========
+function renderChapterList() {
+  let html = '';
+  let lastUnit = 0;
+  CHAPTERS.forEach(ch => {
+    if (ch.unit !== lastUnit) {
+      html += `<div class="unit-header">Unit ${ch.unit}: ${ch.unitName}</div>`;
+      lastUnit = ch.unit;
+    }
+    const p = getProgress();
+    const read = p[`study-${ch.id}`] ? 'done' : '';
+    html += `<div class="chapter-card" onclick="openChapter(${ch.id})">
+      <div class="ch-num" style="background:${ch.color}22;color:${ch.color}">${ch.id}</div>
+      <div class="ch-info"><h3>${ch.title}</h3><p>Chapter ${ch.id}</p></div>
+      <div class="progress-dot ${read}">${read?'✓':''}</div>
+    </div>`;
+  });
+  document.getElementById('chapterList').innerHTML = html;
+}
+renderChapterList();
+
+function openChapter(id) {
+  const ch = CHAPTERS.find(c=>c.id===id);
+  document.getElementById('chViewTitle').textContent = `Ch ${id}: ${ch.title}`;
+  document.getElementById('chViewContent').innerHTML = STUDY_CONTENT[id] || '<p>Content coming soon...</p>';
+  document.getElementById('chapterList').style.display = 'none';
+  document.getElementById('chapterView').classList.add('active');
+  document.getElementById('chapterView').classList.add('fade-in');
+  // Mark as read
+  const p = getProgress(); p[`study-${id}`] = true; saveProgress(p);
+  window.scrollTo(0,0);
+}
+function closeChapter() {
+  document.getElementById('chapterView').classList.remove('active');
+  document.getElementById('chapterList').style.display = 'block';
+  renderChapterList();
+}
+
+// ========== FLASHCARDS ==========
+function renderFlashChapterSelect() {
+  let html = '<div class="chapter-grid">';
+  let lastUnit = 0;
+  CHAPTERS.forEach(ch => {
+    if (ch.unit !== lastUnit) {
+      html += `<div class="unit-header">Unit ${ch.unit}: ${ch.unitName}</div>`;
+      lastUnit = ch.unit;
+    }
+    const cards = FLASHCARDS[ch.id] || [];
+    const p = getProgress();
+    const known = Object.keys(p).filter(k=>k.startsWith(`flash-${ch.id}-`)&&p[k]).length;
+    html += `<div class="chapter-card" onclick="startFlashcards(${ch.id})">
+      <div class="ch-num" style="background:${ch.color}22;color:${ch.color}">🃏</div>
+      <div class="ch-info"><h3>${ch.title}</h3><p>${cards.length} cards • ${known}/${cards.length} mastered</p></div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('flashChapterSelect').innerHTML = html;
+  document.getElementById('flashChapterSelect').style.display = 'block';
+  document.getElementById('flashcardArea').style.display = 'none';
+}
+function startFlashcards(chId) {
+  const cards = FLASHCARDS[chId];
+  if (!cards || !cards.length) return;
+  flashState = {chapter:chId, index:0, known:{}};
+  document.getElementById('flashChapterSelect').style.display = 'none';
+  document.getElementById('flashcardArea').style.display = 'block';
+  renderFlashcard();
+}
+function renderFlashcard() {
+  const cards = FLASHCARDS[flashState.chapter];
+  const card = cards[flashState.index];
+  document.getElementById('flashTerm').textContent = card.t;
+  document.getElementById('flashDef').textContent = card.d;
+  document.getElementById('flashExample').textContent = card.e ? `Example: ${card.e}` : '';
+  document.getElementById('flashCounter').textContent = `${flashState.index+1} / ${cards.length}`;
+  document.getElementById('flashcard').classList.remove('flipped');
+  // Add slide animation
+  const container = document.querySelector('.flashcard-container');
+  container.classList.remove('slide-right','slide-left');
+  void container.offsetWidth; // force reflow
+  container.classList.add('slide-right');
+}
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+function flashAction(action) {
+  const cards = FLASHCARDS[flashState.chapter];
+  if (action === 'know') {
+    haptic('success');
+    const p = getProgress();
+    p[`flash-${flashState.chapter}-${flashState.index}`] = true;
+    p._lastStudyDate = new Date().toISOString().slice(0,10);
+    saveProgress(p);
+  } else {
+    haptic('light');
+  }
+  flashState.index++;
+  if (flashState.index >= cards.length) {
+    flashState.index = 0;
+    confetti(40);
+    haptic('success');
+  }
+  renderFlashcard();
+  updateStreak();
+}
+function closeFlashcards() {
+  renderFlashChapterSelect();
+}
+
+// ========== QUIZ ==========
+function renderQuizChapterSelect() {
+  let html = '<div class="chapter-grid">';
+  let lastUnit = 0;
+  CHAPTERS.forEach(ch => {
+    if (ch.unit !== lastUnit) {
+      html += `<div class="unit-header">Unit ${ch.unit}: ${ch.unitName}</div>`;
+      lastUnit = ch.unit;
+    }
+    const qs = QUIZZES[ch.id] || [];
+    const p = getProgress();
+    const score = p[`quiz-${ch.id}-score`];
+    const scoreText = score !== undefined ? `Last: ${score}/${qs.length}` : `${qs.length} questions`;
+    html += `<div class="chapter-card" onclick="startQuiz(${ch.id})">
+      <div class="ch-num" style="background:${ch.color}22;color:${ch.color}">📝</div>
+      <div class="ch-info"><h3>${ch.title}</h3><p>${scoreText}</p></div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('quizChapterSelect').innerHTML = html;
+  document.getElementById('quizChapterSelect').style.display = 'block';
+  document.getElementById('quizArea').style.display = 'none';
+}
+function startQuiz(chId) {
+  const qs = QUIZZES[chId];
+  if (!qs || !qs.length) return;
+  quizState = {chapter:chId, currentQ:0, answers:Array(qs.length).fill(null), showingResults:false};
+  document.getElementById('quizChapterSelect').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  renderQuiz();
+}
+function renderQuiz() {
+  const qs = QUIZZES[quizState.chapter];
+  if (quizState.showingResults) {
+    const correct = quizState.answers.filter((a,i) => a === qs[i].a).length;
+    const p = getProgress();
+    p[`quiz-${quizState.chapter}-score`] = correct;
+    saveProgress(p);
+    const pct = Math.round(correct/qs.length*100);
+    if(pct >= 80) confetti(50);
+    let html = `<div class="quiz-score pop-in">
+      <div class="score-ring" style="--pct:${pct}%">
+        <div class="score-ring-inner">
+          <div class="big">${pct}%</div>
+          <div class="small">${correct}/${qs.length} correct</div>
+        </div>
+      </div>
+      <div class="score-label" style="font-size:1.1rem;font-weight:700;margin-top:8px">${pct===100 ? '🎉 PERFECT SCORE!' : pct >= 80 ? '🔥 Great job!' : pct >= 60 ? '👍 Getting there!' : '💪 Keep grinding!'}</div>
+    </div>`;
+    // Show all questions with answers
+    qs.forEach((q, i) => {
+      html += `<div class="quiz-question" style="margin-top:16px">
+        <div class="q-num">Question ${i+1}</div>
+        <div class="q-text">${q.q}</div>`;
+      q.o.forEach((opt, j) => {
+        let cls = '';
+        if (j === q.a) cls = 'correct';
+        else if (quizState.answers[i] === j && j !== q.a) cls = 'wrong';
+        html += `<div class="quiz-option ${cls}" style="cursor:default">${opt}</div>`;
+      });
+      html += `<div class="quiz-explanation show">💡 ${q.exp}</div></div>`;
+    });
+    html += `<div class="quiz-nav">
+      <button onclick="renderQuizChapterSelect()">← Back</button>
+      <button onclick="startQuiz(${quizState.chapter})">Retry</button>
+    </div>`;
+    document.getElementById('quizArea').innerHTML = html;
+    window.scrollTo(0,0);
+    return;
+  }
+  const q = qs[quizState.currentQ];
+  const answered = quizState.answers[quizState.currentQ] !== null;
+  let html = `<div class="flashcard-controls">
+    <button class="back-btn" onclick="renderQuizChapterSelect()">Back</button>
+    <div class="flashcard-counter">${quizState.currentQ+1} / ${qs.length}</div>
+  </div>
+  <div class="quiz-question fade-in">
+    <div class="q-num">Question ${quizState.currentQ+1}</div>
+    <div class="q-text">${q.q}</div>`;
+  q.o.forEach((opt, i) => {
+    let cls = '';
+    if (answered) {
+      if (i === q.a) cls = 'correct';
+      else if (quizState.answers[quizState.currentQ] === i) cls = 'wrong';
+    }
+    const disabled = answered ? 'style="pointer-events:none"' : '';
+    html += `<button class="quiz-option ${cls}" ${disabled} onclick="answerQuiz(${i})">${opt}</button>`;
+  });
+  html += `<div class="quiz-explanation ${answered?'show':''}">💡 ${q.exp}</div>`;
+  html += '</div>';
+  if (answered) {
+    const isLast = quizState.currentQ >= qs.length - 1;
+    html += `<div class="quiz-nav">
+      <button onclick="${isLast ? 'finishQuiz()' : 'nextQuestion()'}">${isLast ? 'See Results' : 'Next →'}</button>
+    </div>`;
+  }
+  document.getElementById('quizArea').innerHTML = html;
+}
+function answerQuiz(idx) {
+  const qs = QUIZZES[quizState.chapter];
+  const correct = idx === qs[quizState.currentQ].a;
+  quizState.answers[quizState.currentQ] = idx;
+  if(correct) { haptic('success'); } else { haptic('error'); }
+  const p = getProgress();
+  p._lastStudyDate = new Date().toISOString().slice(0,10);
+  saveProgress(p);
+  renderQuiz();
+  updateStreak();
+}
+function nextQuestion() {
+  quizState.currentQ++;
+  renderQuiz();
+  window.scrollTo(0,0);
+}
+function finishQuiz() {
+  quizState.showingResults = true;
+  renderQuiz();
+}
+
+// ========== GLOSSARY ==========
+function renderGlossary(filter) {
+  const f = (filter||'').toLowerCase();
+  const filtered = f ? GLOSSARY.filter(g => g.term.toLowerCase().includes(f) || g.def.toLowerCase().includes(f)) : GLOSSARY;
+  document.getElementById('glossaryCount').textContent = `${filtered.length} terms`;
+  const html = filtered.slice(0,100).map(g => `
+    <div class="glossary-item">
+      <span class="g-term">${g.term}</span>
+      <span class="g-chapter">Ch ${g.chapter}</span>
+      <div class="g-def">${g.def}${g.example ? `<br><em style="color:var(--text2);font-size:0.8rem">Ex: ${g.example}</em>` : ''}</div>
+    </div>`).join('');
+  document.getElementById('glossaryList').innerHTML = html || '<p style="color:var(--text2);text-align:center;padding:20px">No terms found.</p>';
+}
+function filterGlossary(val) { renderGlossary(val); }
+
+// ========== PROGRESS ==========
+function renderProgress() {
+  const p = getProgress();
+  let html = '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:16px">📊 Your Progress</h2>';
+
+  // Overall stats
+  const studyDone = CHAPTERS.filter(ch => p[`study-${ch.id}`]).length;
+  const totalFlash = Object.values(FLASHCARDS).reduce((s,c)=>s+c.length,0);
+  const flashDone = Object.keys(p).filter(k=>k.startsWith('flash-')&&p[k]).length;
+  const quizDone = CHAPTERS.filter(ch => p[`quiz-${ch.id}-score`]!==undefined).length;
+
+  html += `<div class="progress-card">
+    <h3>📖 Study Guide</h3>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${studyDone/14*100}%"></div></div>
+    <div class="progress-stat"><span>${studyDone}/14 chapters read</span><span>${Math.round(studyDone/14*100)}%</span></div>
+  </div>`;
+  html += `<div class="progress-card">
+    <h3>🃏 Flashcards</h3>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${flashDone/totalFlash*100}%;background:var(--green)"></div></div>
+    <div class="progress-stat"><span>${flashDone}/${totalFlash} cards mastered</span><span>${Math.round(flashDone/totalFlash*100)}%</span></div>
+  </div>`;
+  html += `<div class="progress-card">
+    <h3>📝 Quizzes</h3>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${quizDone/14*100}%;background:var(--orange)"></div></div>
+    <div class="progress-stat"><span>${quizDone}/14 quizzes completed</span><span>${Math.round(quizDone/14*100)}%</span></div>
+  </div>`;
+
+  // Per-chapter breakdown
+  html += '<h3 style="margin-top:24px;font-size:1rem;font-weight:700">By Chapter</h3>';
+  CHAPTERS.forEach(ch => {
+    const cards = FLASHCARDS[ch.id]||[];
+    const cardsDone = Object.keys(p).filter(k=>k.startsWith(`flash-${ch.id}-`)&&p[k]).length;
+    const quizScore = p[`quiz-${ch.id}-score`];
+    const studied = p[`study-${ch.id}`] ? '✅' : '⬜';
+    html += `<div class="progress-card" style="padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-weight:600;font-size:0.85rem">${studied} Ch ${ch.id}: ${ch.title}</span>
+        <span style="font-size:0.75rem;color:var(--text2)">🃏${cardsDone}/${cards.length} ${quizScore!==undefined?`📝${quizScore}`:''}</span>
+      </div>
+    </div>`;
+  });
+
+  html += `<button onclick="if(confirm('Reset all progress?')){localStorage.removeItem('aphg-progress');renderProgress()}" style="margin:20px auto;display:block;background:var(--surface2);border:none;color:var(--red);padding:12px 20px;border-radius:12px;font-size:0.85rem;cursor:pointer">Reset Progress</button>`;
+
+  document.getElementById('progressArea').innerHTML = html;
+}
+
+// Init
+renderGlossary();
+</script>
+</body>
+</html>

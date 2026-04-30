@@ -1,0 +1,17 @@
+{
+  "name": "AP Human Geo — Winslow's Study Hub",
+  "short_name": "AP HumanGeo",
+  "description": "AP Human Geography exam prep — flashcards, quizzes, study guide",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f13",
+  "theme_color": "#6c5ce7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236c5ce7' rx='20' width='100' height='100'/><text y='70' x='50' text-anchor='middle' font-size='55'>📚</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
